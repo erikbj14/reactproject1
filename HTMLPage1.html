@@ -1,0 +1,123 @@
+﻿<script>
+
+
+    /*  if (id === "start") { <script>location.replace*/
+
+
+
+
+    /*  if (id === "start") { <script>location.replace*/
+
+
+
+
+    const popupContainer = document.getElementById('popup-container3');
+
+    //const popupContainer = document.getElementById('popup-container4'); }
+
+    // Update the position when the map is moved or zoomed
+    map3.on('moveend', function () {
+
+        const center = map3.getView().getCenter();
+        const pixel = map3.getPixelFromCoordinate(center);
+
+        // Set the position of the popup container based on the pixel coordinates
+        popupContainer.style.left = pixel[0] + 'px';
+        popupContainer.style.top = pixel[1] + 'px';
+    });
+    {
+        function mouseOver(id) {
+            alert("test1");
+        // Check the ID and perform actions accordingly
+            if (id === "demo") {
+                alert(document.getElementById("demo").innerHTML)
+                document.getElementById("demo").innerHTML = "Staffans väg/ Norrvikenleden";
+                document.getElementById("popup-container2").style.display = "block";
+                document.getElementById("popup-container3").style.display = "block";
+                document.getElementById("popup-container4").style.display = "none";
+                document.getElementById("popup-container5").style.display = "none";
+                document.getElementById("popup-container6").style.display = "none";
+                document.getElementById("popup-container7").style.display = "none";
+                document.getElementById("popup-container8").style.display = "none";
+                document.getElementById("popup-container9").style.display = "none";
+            }
+            //} else if (id === "demo2") {
+            //    document.getElementById("demo2").innerHTML = "Staffans väg";
+            //    document.getElementById("popup-container4").style.display = "block";
+            //    document.getElementById("popup-container5").style.display = "block";
+            //    document.getElementById("popup-container2").style.display = "none";
+            //    document.getElementById("popup-container3").style.display = "none";
+            //    document.getElementById("popup-container6").style.display = "none";
+            //    document.getElementById("popup-container7").style.display = "none";
+            //    document.getElementById("popup-container8").style.display = "none";
+            //    document.getElementById("popup-container9").style.display = "none";
+            //} else if (id === "demo3") {
+            //    document.getElementById("demo3").innerHTML = "Rotebrovägen/ Kung Hans Väg";
+            //    document.getElementById("popup-container6").style.display = "block";
+            //    document.getElementById("popup-container7").style.display = "block";
+            //    document.getElementById("popup-container2").style.display = "none";
+            //    document.getElementById("popup-container3").style.display = "none";
+            //    document.getElementById("popup-container4").style.display = "none";
+            //    document.getElementById("popup-container5").style.display = "none";
+            //    document.getElementById("popup-container8").style.display = "none";
+            //    document.getElementById("popup-container9").style.display = "none";
+            //}
+            //} else if (id === "demo4") {
+            //    document.getElementById("demo3").innerHTML = "Rotebrovägen / Hertig Karls väg";
+            //    document.getElementById("popup-container8").style.display = "block";
+            //    document.getElementById("popup-container9").style.display = "block";
+            //    document.getElementById("popup-container6").style.display = "none";
+            //    document.getElementById("popup-container7").style.display = "none";
+            //    document.getElementById("popup-container2").style.display = "none";
+            //    document.getElementById("popup-container3").style.display = "none";
+            //    document.getElementById("popup-container4").style.display = "none";
+            //    document.getElementById("popup-container5").style.display = "none";
+            //}
+        }
+        function mouseOut() {
+
+            if (id === "demo") {
+                document.getElementById("demo").innerHTML = "Staffans väg/ Norrvikenleden";
+                document.getElementById("popup-container2").style.display = "none";
+                document.getElementById("popup-container3").style.display = "none";
+                document.getElementById("popup-container4").style.display = "none";
+                document.getElementById("popup-container5").style.display = "none";
+                document.getElementById("popup-container6").style.display = "none";
+                document.getElementById("popup-container7").style.display = "none";
+                document.getElementById("popup-container8").style.display = "none";
+                document.getElementById("popup-container9").style.display = "none";
+                //} else if (id === "demo2") {
+                //    document.getElementById("demo2").innerHTML = "Staffans väg";
+                //    document.getElementById("popup-container4").style.display = "none";
+                //    document.getElementById("popup-container5").style.display = "none";
+                //    document.getElementById("popup-container2").style.display = "none";
+                //    document.getElementById("popup-container3").style.display = "none";
+                //    document.getElementById("popup-container6").style.display = "none";
+                //    document.getElementById("popup-container7").style.display = "none";
+                //    document.getElementById("popup-container8").style.display = "none";
+                //    document.getElementById("popup-container9").style.display = "none";
+                //} else if (id === "demo3") {
+                //    document.getElementById("demo3").innerHTML = "Rotebrovägen/ Kung Hans Väg";
+                //    document.getElementById("popup-container6").style.display = "none";
+                //    document.getElementById("popup-container7").style.display = "none";
+                //    document.getElementById("popup-container2").style.display = "none";
+                //    document.getElementById("popup-container3").style.display = "none";
+                //    document.getElementById("popup-container4").style.display = "none";
+                //    document.getElementById("popup-container5").style.display = "none";
+                //    document.getElementById("popup-container8").style.display = "none";
+                //    document.getElementById("popup-container9").style.display = "none";
+                //}
+                //} else if (id === "demo4") {
+                //    document.getElementById("demo4").innerHTML = "Rotebrovägen / Hertig Karls väg";
+                //    document.getElementById("popup-container6").style.display = "none";
+                //    document.getElementById("popup-container7").style.display = "none";
+                //    document.getElementById("popup-container2").style.display = "none";
+                //    document.getElementById("popup-container3").style.display = "none";
+                //    document.getElementById("popup-container4").style.display = "none";
+                //    document.getElementById("popup-container5").style.display = "none";
+                //    document.getElementById("popup-container8").style.display = "none";
+                //    document.getElementById("popup-container9").style.display = "none";
+                //}
+            }
+        }
+</script>
