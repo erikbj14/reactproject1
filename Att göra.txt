@@ -1,0 +1,5 @@
+Att göra:
+
+Pendelparkering: Förklaring prognos, olika färgerna
+
+Sollentuna.html: Modifiera prognosen helger, texten till Sollentunavallen (ofta fullt på helger)
