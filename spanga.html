@@ -251,7 +251,7 @@ const vectorLayer2a = new ol.layer.Vector({
 map.addLayer(vectorLayer2a);
 
 
-// Spånga station Infarts P. 240
+// Spånga station Infarts P
 const marker3 = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([17.90107, 59.38194])), // Adjust the longitude value
 });
@@ -260,9 +260,9 @@ const markerStyle3 = new ol.style.Style({
     image: new ol.style.Icon({
         anchor: [0.5, 1],
         //src: './Bild4.png', //Gjorde en bild som liknade en polygon
-        src: './240.png',
+        src: './parking.svg',
         //src: './location-dot-solid.svg',
-        scale: 0.1,
+        scale: 2,
     }),
 });
  
@@ -304,6 +304,7 @@ const vectorLayer3a = new ol.layer.Vector({
 
 map.addLayer(vectorLayer3a);
 //--------------------------------
+
 </script>
 
 <table width="440" border="0">
