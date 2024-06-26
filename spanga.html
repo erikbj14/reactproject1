@@ -224,7 +224,7 @@ const vectorLayer2 = new ol.layer.Vector({
 
 map.addLayer(vectorLayer2);
 
-// Spånga stationsväg 65 "P1"
+// Spånga stationsväg 65 P områdeskod 250
 const marker2a = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([17.89542, 59.38372])), //add to the east, add to the north
 });
@@ -233,11 +233,11 @@ const markerStyle2a = new ol.style.Style({
     image: new ol.style.Icon({
         anchor: [0.5, 1],
         //src: './Bild4.png',
-        src: './250.png',
+        src: './240.png',
         scale: 0.1,
     }),
 });
-//Testar bild
+
 marker2a.setStyle(markerStyle2a);
 
 const vectorSource2a = new ol.source.Vector({
