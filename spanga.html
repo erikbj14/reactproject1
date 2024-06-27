@@ -303,6 +303,36 @@ const vectorLayer3a = new ol.layer.Vector({
 });
 
 map.addLayer(vectorLayer3a);
+
+// Kronofogdevägen
+const marker3a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.89444, 59.38314])), //add to the east, add to the north
+});
+
+const markerStyle6 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        // src: './Bild4.png',
+        src: './parking2.svg',
+        scale: 2,
+    }),
+});
+
+marker3a.setStyle(markerStyle3a);
+
+const vectorSource3a = new ol.source.Vector({
+    features: [marker3a],
+});
+
+const vectorLayer3a = new ol.layer.Vector({
+    source: vectorSource3a,
+});
+
+map.addLayer(vectorLayer3a);
+
+
+
+
 //--------------------------------
 
 </script>
