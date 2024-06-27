@@ -375,7 +375,7 @@ map.addLayer(vectorLayer4);
     </tr>
     <tr>
         <th width="15"><img src="parking2.svg"></th>
-        <td width="175" align="left" id="demo3" onmouseover="mouseOver('demo3')" onmouseout="mouseOut('demo3')" class="highlight_staffan27">Kronofogdevägen</td>
+        <td width="175" align="left" id="demo4" onmouseover="mouseOver('demo4')" onmouseout="mouseOut('demo4')" class="highlight_staffan27">Kronofogdevägen</td>
         <th width="15"></th>
         <td width="235" align="left" style="padding: 0px; font-size: 1px;" id="start">
             <!--<button type="button" onload="this.style.display='none'">Hello</button>-->
@@ -630,6 +630,11 @@ popupContainer.style.top = pixel[1] + 'px';
             document.getElementById("demo3").innerHTML;
             document.getElementById("popup-container3").style.display = "block";
         }
+    } else if (id === "demo4") {
+            //alert(document.getElementById("demo").innerHTML)
+            document.getElementById("demo4").innerHTML;
+            document.getElementById("popup-container4").style.display = "block";
+        }
         
     }
 
@@ -642,6 +647,10 @@ popupContainer.style.top = pixel[1] + 'px';
         } else if (id === "demo3") {
             document.getElementById("demo3").innerHTML;
             document.getElementById("popup-container3").style.display = "none";
+        }
+    } else if (id === "demo4") {
+            document.getElementById("demo4").innerHTML;
+            document.getElementById("popup-container4").style.display = "none";
         }
     }
 </script>
