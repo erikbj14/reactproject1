@@ -556,9 +556,6 @@ map.addLayer(vectorLayer5);
         // Update the rows based on IDs
         updateRowInformation(1, dayOfWeek, currentHour, ids[0] === "240" ? weekendTimeRanges : timeRanges, ids[0]);
         updateRowInformation(2, dayOfWeek, currentHour, timeRanges, ids[1]);
-
-        // Update the P1 row
-        updateP1Row(currentHour);
     }
 
     function updateRowInformation(rowNumber, dayOfWeek, currentHour, timeRanges, id) {
@@ -579,21 +576,12 @@ map.addLayer(vectorLayer5);
         document.getElementById(`color-indicator-cell-${rowNumber}`).style.backgroundColor = indicatorColor;
     }
 
-    function updateP1Row(currentHour) {
-        let p1Color = "yellow";
-        if (currentHour >= 9 && currentHour < 15) {
-            p1Color = "red";
-        }
-        document.getElementById('color-indicator-cell-3').style.backgroundColor = p1Color;
-    }
-
     // Call the updateInformation function when the page loads
     updateInformation();
 
     // Update the information every second (1000 milliseconds)
     setInterval(updateInformation, 1000);
 </script>
-
 
 <script>
 
