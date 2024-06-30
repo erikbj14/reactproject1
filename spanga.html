@@ -536,7 +536,7 @@ map.addLayer(vectorLayer5);
         const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
         const currentHour = currentDate.getHours();
 
-        // Define time ranges and messages
+        // Define time ranges and messages for weekdays
         const timeRanges = [
             { start: 0, end: 8, message: "Your message for 00:00-08:00", color: "lightgreen" },
             { start: 8, end: 8.5, message: "Your message for 08:00-08:30", color: "yellow" },
@@ -545,29 +545,31 @@ map.addLayer(vectorLayer5);
             { start: 17, end: 24, message: "Your message for 17:00-24:00", color: "lightgreen" },
         ];
 
-        // Define time ranges for weekends
-        const weekendTimeRanges = [
-            { start: 0, end: 24, message: "Weekend message", color: "yellow" },
-        ];
-
         // IDs
         const ids = ["240", "250"];
 
-        // Update the rows based on IDs
-        updateRowInformation(1, dayOfWeek, currentHour, ids[0] === "240" ? weekendTimeRanges : timeRanges, ids[0]);
-        updateRowInformation(2, dayOfWeek, currentHour, timeRanges, ids[1]);
+        // Update the rows based on IDs and day of the week
+        updateRowInformation(1, dayOfWeek, currentHour, ids[0]);
+        updateRowInformation(2, dayOfWeek, currentHour, ids[1]);
+
+        // Update the P1 row
+        updateP1Row(dayOfWeek, currentHour);
     }
 
-    function updateRowInformation(rowNumber, dayOfWeek, currentHour, timeRanges, id) {
+    function updateRowInformation(rowNumber, dayOfWeek, currentHour, id) {
         let displayText = "";
         let indicatorColor = "";
 
-        // Check the current time range
-        for (const range of timeRanges) {
-            if (currentHour >= range.start && currentHour < range.end) {
-                displayText = range.message;
-                indicatorColor = range.color;
-                break;
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            indicatorColor = "lightgreen"; // Weekend color for 240 and 250
+        } else {
+            // Check the current time range
+            for (const range of timeRanges) {
+                if (currentHour >= range.start && currentHour < range.end) {
+                    displayText = range.message;
+                    indicatorColor = range.color;
+                    break;
+                }
             }
         }
 
@@ -576,12 +578,25 @@ map.addLayer(vectorLayer5);
         document.getElementById(`color-indicator-cell-${rowNumber}`).style.backgroundColor = indicatorColor;
     }
 
+    function updateP1Row(dayOfWeek, currentHour) {
+        let p1Color = "yellow"; // Default color
+
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            p1Color = "yellow"; // Weekend color
+        } else if (currentHour >= 9 && currentHour < 15) {
+            p1Color = "red"; // 09:00-15:00 on weekdays
+        }
+
+        document.getElementById('color-indicator-cell-3').style.backgroundColor = p1Color;
+    }
+
     // Call the updateInformation function when the page loads
     updateInformation();
 
     // Update the information every second (1000 milliseconds)
     setInterval(updateInformation, 1000);
 </script>
+
 
 <script>
 
