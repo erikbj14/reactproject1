@@ -470,7 +470,7 @@ map.addLayer(vectorLayer5);
 
 
 
-                <th colspan=" 4" align="left">Kronofogdevägen</th>
+                <th colspan=" 4" align="left">Kronofogdevägen P1</th>
 
 
             </tr>
@@ -507,13 +507,13 @@ map.addLayer(vectorLayer5);
 </div>
 
 <table id="display-info-table">
-    <td colspan="2" align="left" style="font-size: smaller;">
+    <td colspan="3" align="left" style="font-size: smaller;">
         <span style="display: inline-block; width: 10px; height: 10px; background-color: lightgreen; margin-right: 2px;"></span>Ledigt
         <span style="display: inline-block; width: 10px; height: 10px; background-color: yellow; margin-left: 5px; margin-right: 2px;"></span>Ev. ledigt
         <span style="display: inline-block; width: 10px; height: 10px; background-color: red; margin-left: 5px; margin-right: 2px;"></span>Fullt
     </td>
     <tr>
-        <th colspan="2" align="left">Prognos</th>
+        <th colspan="3" align="left">Prognos</th>
     </tr>
     <tr id="row-1">
         <td id="id-cell-1"></td>
@@ -522,6 +522,10 @@ map.addLayer(vectorLayer5);
     <tr id="row-2">
         <td id="id-cell-2"></td>
         <td id="color-indicator-cell-2" style="width: 80%;"></td>
+    </tr>
+    <tr id="row-3">
+        <td id="id-cell-3">P1</td>
+        <td id="color-indicator-cell-3" style="width: 80%;"></td>
     </tr>
 </table>
 
@@ -552,6 +556,9 @@ map.addLayer(vectorLayer5);
         // Update the rows based on IDs
         updateRowInformation(1, dayOfWeek, currentHour, ids[0] === "240" ? weekendTimeRanges : timeRanges, ids[0]);
         updateRowInformation(2, dayOfWeek, currentHour, timeRanges, ids[1]);
+
+        // Update the P1 row
+        updateP1Row(currentHour);
     }
 
     function updateRowInformation(rowNumber, dayOfWeek, currentHour, timeRanges, id) {
@@ -572,12 +579,21 @@ map.addLayer(vectorLayer5);
         document.getElementById(`color-indicator-cell-${rowNumber}`).style.backgroundColor = indicatorColor;
     }
 
+    function updateP1Row(currentHour) {
+        let p1Color = "yellow";
+        if (currentHour >= 9 && currentHour < 15) {
+            p1Color = "red";
+        }
+        document.getElementById('color-indicator-cell-3').style.backgroundColor = p1Color;
+    }
+
     // Call the updateInformation function when the page loads
     updateInformation();
 
     // Update the information every second (1000 milliseconds)
     setInterval(updateInformation, 1000);
 </script>
+
 
 <script>
 
