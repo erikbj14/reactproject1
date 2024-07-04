@@ -304,9 +304,9 @@ map.addLayer(vectorLayer4);
     </tr>
     <tr>
         <th width="15"></th>
-        <td width="145" align="left" id="demo" onmouseover="mouseOver('demo')" onmouseout="mouseOut('demo')" class="highlight_stationsvagen">Ullevivägen P2</td>
+        <td width="145" align="left" id="demo2" onmouseover="mouseOver('demo2')" onmouseout="mouseOut('demo2')" class="highlight_stationsvagen">Ullevivägen P2</td>
         <th width="15"></th>
-        <td width="265" align="left" id="demo2" onmouseover="mouseOver('demo2')" onmouseout="mouseOut('demo2')" class="highlight_skolvagen"></td>
+        <td width="265" align="left"></td>
     </tr>
     <tr>
         <th width="15"></th>
@@ -509,7 +509,7 @@ map.on('click', function (event) {
         // Check the ID and perform actions accordingly
         if (id === "demo") {
             //alert('Kolla: ' + id);
-            demoElement.innerHTML = "Ullevivägen P1";//Pga av 2 rader så är det endast Stationsvägen här
+            demoElement.innerHTML = "Ullevivägen P1";
             document.getElementById("popup-container2").style.display = "block";
             document.getElementById("popup-container4").style.display = "none";
         } else if (id === "demo2") {
