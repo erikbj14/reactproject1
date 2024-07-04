@@ -112,7 +112,7 @@
 
         #display-info-table {
             position: absolute;
-            top: 460px;
+            top: 480px;
             left: 230px;
             background-color: white;
             padding: 10px;
@@ -509,7 +509,7 @@ map.on('click', function (event) {
         // Check the ID and perform actions accordingly
         if (id === "demo") {
             //alert('Kolla: ' + id);
-            demoElement.innerHTML = "Stationsvägen";//Pga av 2 rader så är det endast Stationsvägen här
+            demoElement.innerHTML = "";//Pga av 2 rader så är det endast Stationsvägen här
             document.getElementById("popup-container2").style.display = "block";
             document.getElementById("popup-container4").style.display = "none";
         } else if (id === "demo2") {
@@ -522,7 +522,7 @@ map.on('click', function (event) {
     function mouseOut(id) {
         if (id === "demo") {
             //alert('Kolla2: ' + id);
-            demoElement.innerHTML = "Stationsvägen";
+            demoElement.innerHTML = "";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
         } else if (id === "demo2") {
