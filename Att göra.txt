@@ -1,5 +1,5 @@
 Att göra:
 
-Pendelparkering: Förklaring prognos, olika färgerna
+index.html. Markörer för  Stockholm City och Odenplan
 
-Sollentuna.html: Modifiera prognosen helger, texten till Sollentunavallen (ofta fullt på helger)
+Lägg över till testmiljön
