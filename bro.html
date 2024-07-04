@@ -509,12 +509,12 @@ map.on('click', function (event) {
         // Check the ID and perform actions accordingly
         if (id === "demo") {
             //alert('Kolla: ' + id);
-            demoElement.innerHTML = "";//Pga av 2 rader så är det endast Stationsvägen här
+            demoElement.innerHTML = "Stationsvägen";//Pga av 2 rader så är det endast Stationsvägen här
             document.getElementById("popup-container2").style.display = "block";
             document.getElementById("popup-container4").style.display = "none";
         } else if (id === "demo2") {
             //alert('Kolla: ' + id);
-            document.getElementById("demo2").innerHTML = "";
+            document.getElementById("demo2").innerHTML = "Sydvästra";
             document.getElementById("popup-container4").style.display = "block";
             document.getElementById("popup-container2").style.display = "none";
         }
@@ -522,12 +522,12 @@ map.on('click', function (event) {
     function mouseOut(id) {
         if (id === "demo") {
             //alert('Kolla2: ' + id);
-            demoElement.innerHTML = "";
+            demoElement.innerHTML = "Stationsvägen";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
         } else if (id === "demo2") {
             //alert('Kolla2: ' + id);
-            document.getElementById("demo2").innerHTML = "";
+            document.getElementById("demo2").innerHTML = "Sydvästra";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
         }
