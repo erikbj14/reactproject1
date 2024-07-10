@@ -1,5 +1,8 @@
 Att göra:
 
-index.html. Markörer för  Stockholm City och Odenplan
+reactproject_test.html via chatgpt:
 
-Lägg över till testmiljön
+index.html Markörer för Stockholm City och Odenplan. Se till så att menyn fungerar också.
+
+ny textdesign helelund.html
+
