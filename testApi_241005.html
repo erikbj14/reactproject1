@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Avgående tåg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" id="viewport">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <style>
+        table {
+            border: 1px solid #000000;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            width: 100%;
+        }
+        table th, table td {
+            padding: 8px 5px; /* Reduced padding for better spacing */
+            font-size: 1.2em; /* Reduced font size */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td.owner, th.owner {
+            text-align: center;
+        }
+        td.till, th.till {
+            word-break: break-word; /* Allow breaking words to the next line */
+            white-space: normal; /* Allow wrapping text */
+            min-width: 100px; /* Minimum width to fit names like Södertälje on a single line */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            table th, table td {
+                font-size: 1.0em; /* Smaller font size on smaller screens */
+                padding: 6px 4px; /* Smaller padding on smaller screens */
+            }
+            td.till, th.till {
+                font-size: 1.1em; /* Slightly smaller font size for Till column on smaller screens */
+            }
+            input[type="button"] {
+                font-size: 1.2em; /* Smaller button font size on smaller screens */
+            }
+            input#station {
+                font-size: 1.2em; /* Smaller input font size on smaller screens */
+            }
+        }
+
+        /* Custom styles */
+        #header-row {
+            background-color: #e0f7fa; /* Light blue background */
+        }
+        #header-row h3 {
+            margin: 0;
+            font-size: 1.4em; /* Reduced font size for header */
+        }
+        #header-row button {
+            font-size: 1.2em; /* Smaller button font size */
+            font-weight: bold; /* Make button text bold */
+            background-color: #007bff; /* Blue background */
+            color: white; /* White text */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #header-row button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript">
+        var originalViewport = document.querySelector("#viewport").getAttribute("content");
+        var Stations = new Array();
+
+        // Function to get URL parameter
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        $(document).ready(function () {
+            $.support.cors = true; // Enable Cross domain requests
+            try {
+                $.ajaxSetup({
+                    url: "https://api.trafikinfo.trafikverket.se/v2/data.json",
+                    error: function (msg) {
+                        if (msg.statusText == "abort") return;
+                        alert("Request failed: " + msg.statusText + " " + msg.responseText);
+                    }
+                });
+            }
+            catch (e) { alert("Ett fel uppstod vid initialisering."); }
+            // Create an ajax loading indicator
+            var loadingTimer;
+            $("#loader").hide();
+            $(document).ajaxStart(function () {
+                loadingTimer = setTimeout(function () {
+                    $("#loader").show();
+                }, 200);
+            }).ajaxStop(function () {
+                clearTimeout(loadingTimer);
+                $("#loader").hide();
+            });
+            // Load stations
+            PreloadTrainStations();
+            // Handle focus and blur events on the input field
+            $("#station").on("focus", function () {
+                document.querySelector("#viewport").setAttribute("content", "width=device-width, initial-scale=2.0");
+            });
+            $("#station").on("blur", function () {
+                document.querySelector("#viewport").setAttribute("content", originalViewport);
+            });
+        });
+
+        function PreloadTrainStations() {
+            // Request to load all stations
+            var xmlRequest = "<REQUEST>" +
+                                "<LOGIN authenticationkey='34c3f329c6ab41699591c61dd07043f1'/>" +
+                                "<QUERY objecttype='TrainStation' schemaversion='1'>" +
+                                    "<FILTER/>" +
+                                    "<INCLUDE>Prognosticated</INCLUDE>" +
+                                    "<INCLUDE>AdvertisedLocationName</INCLUDE>" +
+                                    "<INCLUDE>LocationSignature</INCLUDE>" +
+                                "</QUERY>" +
+                             "</REQUEST>";
+            $.ajax({
+                type: "POST",
+                contentType: "text/xml",
+                dataType: "json",
+                data: xmlRequest,
+                success: function (response) {
+                    if (response == null) return;
+                    try {
+                        var stationlist = [];
+                        $(response.RESPONSE.RESULT[0].TrainStation).each(function (iterator, item) {
+                            // Save a key/value list of stations
+                            Stations[item.LocationSignature] = item.AdvertisedLocationName;
+                            // Create an array to fill the search field autocomplete.
+                            if (item.Prognosticated == true)
+                                stationlist.push({ label: item.AdvertisedLocationName, value: item.LocationSignature });
+                        });
+                        fillSearchWidget(stationlist);
+                        // Get the station from the URL parameter
+                        var stationParam = getParameterByName('station');
+                        if (stationParam) {
+                            var defaultStation = stationlist.find(station => station.label === stationParam);
+                            if (defaultStation) {
+                                $("#station").val(defaultStation.label);
+                                $("#station").data("sign", defaultStation.value);
+                                Search(); // Trigger search for the station from the URL parameter
+                            }
+                        }
+                    }
+                    catch (ex) { console.error(ex); }
+                }
+            });
+        }
+
+        function fillSearchWidget(data) {
+            $("#station").val("");
+            $("#station").autocomplete({
+                // Make the autocomplete fill with matches that "starts with" only
+                source: function (request, response) {
+                    var matches = $.map(data, function (tag) {
+                        if (tag.label.toUpperCase().indexOf(request.term.toUpperCase()) === 0) {
+                            return {
+                                label: tag.label,
+                                value: tag.value
+                            }
+                        }
+                    });
+                    response(matches);
+                },
+                select: function (event, ui) {
+                    var selectedObj = ui.item;
+                    $("#station").val(selectedObj.label);
+                    // Save selected stations signature
+                    $("#station").data("sign", selectedObj.value);
+                    return false;
+                },
+                focus: function (event, ui) {
+                    var selectedObj = ui.item;
+                    // Show station name in search field
+                    $("#station").val(selectedObj.label);
+                    return false;
+                }
+            });
+        }
+
+        function Search() {
+            var sign = $("#station").data("sign");
+            // Clear html table
+            $('#timeTableDeparture tr:not(:first)').remove();
+
+            // Request to load announcements for a station by its signature
+            var xmlRequest = "<REQUEST>" +
+                                "<LOGIN authenticationkey='34c3f329c6ab41699591c61dd07043f1' />" +
+                                "<QUERY objecttype='TrainAnnouncement' " +
+                                    "orderby='AdvertisedTimeAtLocation' schemaversion='1'>" +
+                                    "<FILTER>" +
+                                    "<AND>" +
+                                        "<GT name='AdvertisedTimeAtLocation' value='$now' />" +
+                                        "<EQ name='LocationSignature' value='" + sign + "' />" +
+                                        "<EQ name='ActivityType' value='Avgang' />" +
+                                    "</AND>" +
+                                    "</FILTER>" +
+                                    "<INCLUDE>InformationOwner</INCLUDE>" +
+                                    "<INCLUDE>AdvertisedTimeAtLocation</INCLUDE>" +
+                                    "<INCLUDE>TrackAtLocation</INCLUDE>" +
+                                    "<INCLUDE>FromLocation</INCLUDE>" +
+                                    "<INCLUDE>ToLocation</INCLUDE>" +
+                                "</QUERY>" +
+                                "</REQUEST>";
+            $.ajax({
+                type: "POST",
+                contentType: "text/xml",
+                dataType: "json",
+                data: xmlRequest,
+                success: function (response) {
+                    if (response == null) return;
+                    if (response.RESPONSE.RESULT[0].TrainAnnouncement == null)
+                        jQuery("#timeTableDeparture tr:last").
+                            after("<tr><td colspan='4'>Inga avgångar hittades</td></tr>");
+                    try {
+                        renderTrainAnnouncement(response.RESPONSE.RESULT[0].TrainAnnouncement);
+                        // Reset viewport after search
+                        document.querySelector("#viewport").setAttribute("content", originalViewport);
+                    }
+                    catch (ex) { console.error(ex); }
+                }
+            });
+        }
+
+        function renderTrainAnnouncement(announcement) {
+            $(announcement).each(function (iterator, item) {
+                var advertisedtime = new Date(item.AdvertisedTimeAtLocation);
+                var hours = advertisedtime.getHours();
+                var minutes = advertisedtime.getMinutes();
+                if (minutes < 10) minutes = "0" + minutes;
+                var toList = new Array();
+                $(item.ToLocation).each(function (iterator, toItem) {
+                    toList.push(Stations[toItem]);
+                });
+                var owner = "";
+                if (item.InformationOwner != null) owner = item.InformationOwner;
+                jQuery("#timeTableDeparture tr:last").
+                    after("<tr><td>" + hours + ":" + minutes + "</td><td class='till'>" + toList.join(', ') +
+                    "</td><td class='owner'>" + owner + "</td><td style='text-align: center'>" + item.TrackAtLocation +
+                    "</td></tr>");
+            });
+        }
+
+        function closeWindow() {
+            window.close();
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <input id="station" type="text" />
+        <input type="button" value="Visa" onclick="javascript: Search()" />TESTAR
+        <span id="loader" style="margin-left: 10px">Laddar data ...</span>
+    </div>
+    <div id="result">
+        <table border="0" id="header-row">
+            <tr>
+                <td>
+                    <h3>Avgående tåg</h3>
+                </td>
+                <td>
+                    <button onclick="closeWindow()">Stäng</button>
+                </td>
+            </tr>
+        </table>
+        <table border="0" id="timeTableDeparture">
+            <tr>
+                <th scope="col" style="width:10%;">Tid</th>
+                <th scope="col" style="width:55%;" class="till">Till</th>
+                <th scope="col" style="width:10%;" class="owner">Ägare</th>
+                <th scope="col" style="width:15%;">Spår</th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
