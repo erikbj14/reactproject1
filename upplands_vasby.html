@@ -377,8 +377,8 @@ const marker5 = new ol.Feature({
 const markerStyle5 = new ol.style.Style({
     image: new ol.style.Icon({
         anchor: [0.5, 1],
-        src: './59000.png',
-        scale: 0.1,
+        src: './parking.svg',
+        scale: 2,
     }),
 });
 
@@ -393,6 +393,32 @@ const vectorLayer5 = new ol.layer.Vector({
 });
 
 map.addLayer(vectorLayer5);
+
+// 5A
+const marker5a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.894309, 59.517944])), // Adjust the longitude value
+});
+
+const markerStyle5a = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './59000.png',
+        scale: 0.1,
+    }),
+});
+
+marker5a.setStyle(markerStyle5a);
+
+const vectorSource5a = new ol.source.Vector({
+    features: [marker5a], // Use marker2 as the feature
+});
+
+const vectorLayer5a = new ol.layer.Vector({
+    source: vectorSource5a, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer5a);
 
 </script>
 
