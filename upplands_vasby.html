@@ -368,6 +368,32 @@ const vectorLayer4a = new ol.layer.Vector({
 
 map.addLayer(vectorLayer4a);
 
+
+//59.517944, 17.894309, Pukslagargatan
+const marker5 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.894309, 59.517944])), // Adjust the longitude value
+});
+
+const markerStyle5 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './parking2.svg',
+        scale: 0.1,
+    }),
+});
+
+marker5.setStyle(markerStyle5);
+
+const vectorSource5 = new ol.source.Vector({
+    features: [marker5], // Use marker2 as the feature
+});
+
+const vectorLayer5 = new ol.layer.Vector({
+    source: vectorSource5, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer5);
+
 </script>
 
 <table width="440" border="0">
