@@ -522,76 +522,33 @@ map.addLayer(vectorLayer5a);
         <th colspan="2" align="left">Prognos</th>
     </tr>
     <tr>
-        <td id="id-cell" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;"></td>
-        <td id="color-indicator-cell" style="height: 5px; margin: 0; width: 80px;"></td>
+        <td id="id-cell-59000" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;"></td>
+        <td id="color-indicator-cell-59000" style="height: 5px; margin: 0; width: 80px;"></td>
+    </tr>
+    <tr>
+        <td id="id-cell-P1" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;"></td>
+        <td id="color-indicator-cell-P1" style="height: 5px; margin: 0; width: 80px;"></td>
     </tr>
 </table>
 
 <script>
     function updateInformation() {
-        // Get the current date and time
-        const currentDate = new Date();
-        const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-        const currentHour = currentDate.getHours();
-    
-        let displayText = "";
-        let indicatorColor = "";
-        let id = "59000"; // You can replace this with a dynamic value
-    
-        // Define time ranges and messages
-        const timeRanges = [
-            { start: 0, end: 8.5, message: "Your message for 00:00-08:30", color: "lightgreen" },
-            { start: 8.5, end: 16, message: "Your message for 08:30-16:00", color: "lightgreen" },
-            { start: 16, end: 18, message: "Your message for 16:00-18:00", color: "lightgreen" },
-            { start: 18, end: 24, message: "Your message for 18:00-24:00", color: "lightgreen" },
-        ];
-    
-        // Check if it's the weekend
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            displayText = "Weekend message: Your message here.";
-            indicatorColor = "lightgreen"; // Change this to the desired color for weekends
-        } else {
-            // Check the current time range
-            for (const range of timeRanges) {
-                if (currentHour >= range.start && currentHour < range.end) {
-                    displayText = range.message;
-                    indicatorColor = range.color;
-                    break;
-                }
-            }
-        }
-    
-        // Set values for ID and color indicator cells
-        document.getElementById('id-cell').textContent = id;
-        document.getElementById('color-indicator-cell').style.backgroundColor = indicatorColor;
-        document.getElementById('time-indicator-cell').textContent = getTimeRangeString();
-        document.getElementById('time-indicator-cell').style.backgroundColor = indicatorColor;
-        document.getElementById('message-cell').textContent = displayText;
+        let id59000 = "59000";
+        let idP1 = "P1";
+        let indicatorColor59000 = "lightgreen";
+        let indicatorColorP1 = "lightgreen";
+
+        document.getElementById('id-cell-59000').textContent = id59000;
+        document.getElementById('color-indicator-cell-59000').style.backgroundColor = indicatorColor59000;
+
+        document.getElementById('id-cell-P1').textContent = idP1;
+        document.getElementById('color-indicator-cell-P1').style.backgroundColor = indicatorColorP1;
     }
     
-    function getTimeRangeString() {
-        const currentDate = new Date();
-        const currentHour = currentDate.getHours();
-    
-        if (currentHour >= 0 && currentHour < 8.5) {
-            return "00:00-08:30";
-        } else if (currentHour >= 8.5 && currentHour < 16) {
-            return "08:30-16:00";
-        } else if (currentHour >= 16 && currentHour < 18) {
-            return "16:00-18:00";
-        } else if (currentHour >= 18 && currentHour < 24) {
-            return "18:00-24:00";
-        } else {
-            return "Unknown";
-        }
-    }
-    
-    // Call the updateInformation function when the page loads
     updateInformation();
-    
-    // Update the information every second (1000 milliseconds)
     setInterval(updateInformation, 1000);
-    </script>
+</script>
+
 
 
 <script>
