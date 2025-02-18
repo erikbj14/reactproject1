@@ -85,6 +85,8 @@
                 });
 
                 const data = await response.json();
+                // Debug: Logga hela svaret för att se strukturen
+                console.log("API-svar:", data);
                 const trainData = data.RESPONSE.RESULT[0].TrainAnnouncement || [];
 
                 displayTrainData(trainData);
@@ -106,11 +108,14 @@
             }
 
             trains.forEach(train => {
+                // Omvandlar XML-datum till en lokal tidsträng
                 const advertisedTime = new Date(train.AdvertisedTimeAtLocation[0]);
                 const timeString = advertisedTime.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
 
+                // Om ToLocation finns, mappa ut LocationName
                 const toLocation = train.ToLocation ? train.ToLocation.map(loc => loc.LocationName).join(', ') : 'Okänt';
                 const track = train.TrackAtLocation ? train.TrackAtLocation[0] : 'N/A';
+                // Visar tågtyp/produktinformation om det finns
                 const productInfo = train.ProductInformation ? train.ProductInformation[0].Description : 'Tåg';
 
                 table.innerHTML += `
