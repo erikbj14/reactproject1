@@ -4,7 +4,6 @@
     <title>Trafikinformation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Styla för att dölja scrollen och fixa knappen */
         body {
             margin: 0;
             padding: 0;
@@ -12,7 +11,7 @@
             overflow: hidden; /* Dölj scrollen */
         }
         #header-row {
-            background-color: #e0f7fa; /* Ljusblå bakgrund */
+            background-color: #e0f7fa;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,14 +30,21 @@
         #header-row button:hover {
             background-color: #0056b3;
         }
-        iframe {
+        table {
             width: 100%;
-            height: calc(100vh - 60px); /* 100% höjd, minus knappen */
-            border: none;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
     <script>
-        // Funktion för att hämta värde från URL-parametern
+        // Hämta värde från URL-parametern
         function getParameterByName(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
@@ -46,15 +52,75 @@
 
         // När sidan laddas
         window.onload = function() {
-            // Hämta stationsnamnet från URL-parametern
-            var station = getParameterByName('station') || 'Helenelund'; // Default till 'Helenelund' om inget anges
-
-            // Uppdatera rubriken dynamiskt med stationsnamnet
+            const station = getParameterByName('station') || 'Helenelund'; // Standardstation
             document.getElementById('station-name').textContent = station;
+            fetchTrainData(station);
+        };
 
-            // Uppdatera iframe-källan dynamiskt med stationens namn
-            document.getElementById('trafikverk-iframe').src = 
-                'https://www.trafikverket.se/trafikinformation/tag/?Station=' + station + '&ArrDep=departure';
+        // Hämta tågtider från Trafikverkets API
+        async function fetchTrainData(station) {
+            const apiKey = '10f50b08eb2a4c02bcb5361779e784c7'; // Lägg in din API-nyckel här
+
+            const requestXML = `<?xml version='1.0' encoding='utf-8'?>
+                <REQUEST>
+                    <LOGIN authenticationkey='${apiKey}' />
+                    <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation' limit='5'>
+                        <FILTER>
+                            <EQ name='LocationSignature' value='${station}' />
+                            <EQ name='ActivityType' value='Avgang' />
+                            <GT name='AdvertisedTimeAtLocation' value='$now' />
+                        </FILTER>
+                        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
+                        <INCLUDE>ToLocation</INCLUDE>
+                        <INCLUDE>TrackAtLocation</INCLUDE>
+                        <INCLUDE>ProductInformation</INCLUDE>
+                    </QUERY>
+                </REQUEST>`;
+
+            try {
+                const response = await fetch('https://api.trafikinfo.trafikverket.se/v2/data.json', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/xml' },
+                    body: requestXML
+                });
+
+                const data = await response.json();
+                const trainData = data.RESPONSE.RESULT[0].TrainAnnouncement || [];
+
+                displayTrainData(trainData);
+
+            } catch (error) {
+                console.error('Fel vid hämtning av data:', error);
+                document.getElementById('train-table').innerHTML = '<tr><td colspan="4">Misslyckades att hämta tågtider.</td></tr>';
+            }
+        }
+
+        // Visa tågtider i tabellen
+        function displayTrainData(trains) {
+            const table = document.getElementById('train-table');
+            table.innerHTML = '';
+
+            if (trains.length === 0) {
+                table.innerHTML = '<tr><td colspan="4">Inga avgångar hittades.</td></tr>';
+                return;
+            }
+
+            trains.forEach(train => {
+                const advertisedTime = new Date(train.AdvertisedTimeAtLocation[0]);
+                const timeString = advertisedTime.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+
+                const toLocation = train.ToLocation ? train.ToLocation.map(loc => loc.LocationName).join(', ') : 'Okänt';
+                const track = train.TrackAtLocation ? train.TrackAtLocation[0] : 'N/A';
+                const productInfo = train.ProductInformation ? train.ProductInformation[0].Description : 'Tåg';
+
+                table.innerHTML += `
+                    <tr>
+                        <td>${timeString}</td>
+                        <td>${toLocation}</td>
+                        <td>${track}</td>
+                        <td>${productInfo}</td>
+                    </tr>`;
+            });
         }
     </script>
 </head>
@@ -63,6 +129,19 @@
         <h3>Trafikinformation - <span id="station-name">Helenelund</span></h3>
         <button onclick="window.close()">Stäng</button>
     </div>
-    <iframe id="trafikverk-iframe" src="https://www.trafikverket.se/trafikinformation/tag/?Station=Helenelund&ArrDep=departure"></iframe>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tid</th>
+                <th>Destination</th>
+                <th>Spår</th>
+                <th>Tågtyp</th>
+            </tr>
+        </thead>
+        <tbody id="train-table">
+            <tr><td colspan="4">Laddar tågtider...</td></tr>
+        </tbody>
+    </table>
 </body>
 </html>
