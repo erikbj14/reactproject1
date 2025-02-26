@@ -392,55 +392,35 @@
 
             marker13.setStyle(markerStyle13);
 
-            // Marker 14 Barkarby //Test
-const marker14 = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86436, 59.40515]))
-});
-// Lägg till en egenskap som vi kan kontrollera
-marker14.set('station', 'Barkarby');
+            // Marker 14 Barkarby
+            const marker14 = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86436, 59.40515]))
+            });
+ 
+            const markerStyle14 = new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: 'https://www.openrailwaymap.org/js/images/marker-icon-2x.png',
+                    scale: 0.3
+                })
+            });
 
-const markerStyle14 = new ol.style.Style({
-    image: new ol.style.Icon({
-        anchor: [0.5, 1],
-        src: 'https://www.openrailwaymap.org/js/images/marker-icon-2x.png',
-        scale: 0.3
-    })
-});
-marker14.setStyle(markerStyle14);
+            marker14.setStyle(markerStyle14);
 
-// Marker 15 Jakobsberg (om du vill)
-const marker15 = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.833, 59.4237]))
-});
-marker15.set('station', 'Jakobsberg'); // Detta är valfritt
-const markerStyle15 = new ol.style.Style({
-    image: new ol.style.Icon({
-        anchor: [0.5, 1],
-        src: 'https://www.openrailwaymap.org/js/images/marker-icon-2x.png',
-        scale: 0.3
-    })
-});
-marker15.setStyle(markerStyle15);
+             // Marker 15 Jakobsberg
+             const marker15 = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([17.833, 59.4237]))
+            });
+ 
+            const markerStyle15 = new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: 'https://www.openrailwaymap.org/js/images/marker-icon-2x.png',
+                    scale: 0.3
+                })
+            });
 
-// Se till att marker14 och marker15 läggs till i samma vector layer
-// Exempelvis:
-const vectorSource = new ol.source.Vector({
-    features: [marker14, marker15]
-});
-const vectorLayer = new ol.layer.Vector({
-    source: vectorSource
-});
-map.addLayer(vectorLayer);
-
-// Lägg till en klickhändelse på kartan
-map.on('singleclick', function(evt) {
-    map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-        if (feature.get('station') === 'Barkarby') {
-            // Vid klick på marker14, omdirigera till Barkarby.html
-            window.location.href = "Barkarby.html";
-        }
-    });
-});
+            marker15.setStyle(markerStyle15);
 
 
 
