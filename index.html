@@ -19,16 +19,17 @@
       position: fixed;
       height: 740px;
       width: 440px;
-      top: 0;
-      left: 0;
+      top: 0px;
+      left: 0px;
     }
-    /* Exempel på dropdown-stilar */
+    /* Dropdown-stilar */
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 550px;
+      top: 550px; /* Justera top-positionen efter behov */
       display: inline-block;
       z-index: 4000;
     }
+    /* Unika placeringar för varje dropdown */
     .dropdown { left: 155px; }
     .dropdown2 { left: 10px; }
     .dropbtn {
@@ -57,13 +58,20 @@
       text-decoration: none;
       display: block;
     }
-    .dropdown a:hover, .dropdown2 a:hover {
+    .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
     }
+    /* Visa dropdown vid hover */
+    .dropdown:hover .dropdown-content,
+    .dropdown2:hover .dropdown2-content {
+      display: block;
+    }
+    /* Rubrik */
     p { font-size: 35px; }
   </style>
 </head>
 <body>
+
   <!-- Karta -->
   <div id="osm-map"></div>
 
@@ -82,7 +90,7 @@
         })
       });
 
-      // Skapa markörerna
+      // Skapa alla markörer
 
       // Marker 1 Häggvik
       const marker1 = new ol.Feature({
@@ -240,7 +248,7 @@
         })
       }));
 
-      // Marker 14 Barkarby (klickbar)
+      // Marker 14 Barkarby – klickbar
       const marker14 = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86436, 59.40515]))
       });
@@ -337,11 +345,10 @@
         })
       }));
 
-      // Lägg alla markörer i vectorSource
+      // Samla alla markörer
       const vectorSource = new ol.source.Vector({
         features: [marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8, marker9, marker10, marker11, marker12, marker13, marker14, marker15, marker16, marker17, marker18, marker19, marker20, marker21]
       });
-
       const vectorLayer = new ol.layer.Vector({
         source: vectorSource
       });
@@ -360,35 +367,35 @@
 
   <!-- Dropdown-menyer -->
   <div class="dropdown">
-      <button onclick="myFunction()" class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-      <div id="myDropdown" class="dropdown-content">
-          <a href="arlanda.html">Arlanda</a>
-          <a href="marsta.html">Märsta</a>
-          <a href="rosersberg.html">Rosersberg</a>
-          <a href="upplands_vasby.html">Upplands Väsby</a>
-          <a href="rotebro.html" target="_self">Rotebro</a>
-          <a href="norrviken.html">Norrviken</a>
-          <a href="haggvik.html" target="_self">Häggvik</a>
-          <a href="sollentuna.html">Sollentuna</a>
-          <a href="helenelund.html">Helenelund</a>
-          <a href="ulriksdal.html">Ulriksdal</a>
-          <a href="solna.html">Solna</a>
-      </div>
+    <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
+    <div id="dropdown1" class="dropdown-content">
+      <a href="arlanda.html">Arlanda</a>
+      <a href="marsta.html">Märsta</a>
+      <a href="rosersberg.html">Rosersberg</a>
+      <a href="upplands_vasby.html">Upplands Väsby</a>
+      <a href="rotebro.html">Rotebro</a>
+      <a href="norrviken.html">Norrviken</a>
+      <a href="haggvik.html">Häggvik</a>
+      <a href="sollentuna.html">Sollentuna</a>
+      <a href="helenelund.html">Helenelund</a>
+      <a href="ulriksdal.html">Ulriksdal</a>
+      <a href="solna.html">Solna</a>
+    </div>
   </div>
   <div class="dropdown2">
-      <button onclick="myFunction()" class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-      <div id="myDropdown" class="dropdown-content"> 
-          <a href="balsta.html">Bålsta</a>
-          <a href="bro.html">Bro</a>
-          <a href="kungsangen.html">Kungsängen</a>
-          <a href="kallhall.html">Kallhäll</a>
-          <a href="jakobsberg.html">Jakobsberg</a>
-          <a href="barkarby.html">Barkarby</a>
-          <a href="spanga.html">Spånga</a>   
-          <a href="sundbyberg.html">Sundbyberg</a>
-          <a href="stockholm_odenplan.html">Odenplan</a>
-          <a href="stockholm_city.html">Stockholm City</a>
-      </div>
+    <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
+    <div id="dropdown2" class="dropdown2-content"> 
+      <a href="balsta.html">Bålsta</a>
+      <a href="bro.html">Bro</a>
+      <a href="kungsangen.html">Kungsängen</a>
+      <a href="kallhall.html">Kallhäll</a>
+      <a href="jakobsberg.html">Jakobsberg</a>
+      <a href="barkarby.html">Barkarby</a>
+      <a href="spanga.html">Spånga</a>   
+      <a href="sundbyberg.html">Sundbyberg</a>
+      <a href="stockholm_odenplan.html">Odenplan</a>
+      <a href="stockholm_city.html">Stockholm City</a>
+    </div>
   </div>
 </body>
 </html>
