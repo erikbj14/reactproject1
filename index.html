@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>OpenStreetMap</title>
+  <title>OpenStreetMap med Tooltips</title>
   <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- OpenLayers CSS och JS -->
   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <style>
@@ -22,10 +23,21 @@
       top: 0px;
       left: 0px;
     }
-    /* Dropdown-stilar – oförändrade */
+    /* Tooltip-stil */
+    .tooltip {
+      background-color: white;
+      border: 1px solid black;
+      padding: 4px;
+      position: absolute;
+      white-space: nowrap;
+      font-size: 12px;
+      display: none;
+      pointer-events: none;
+    }
+    /* Dropdown-stilar */
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 550px;
+      top: 550px; /* Placera knapparna vid önskat läge */
       display: inline-block;
       z-index: 4000;
     }
@@ -67,22 +79,14 @@
       display: block;
     }
     p { font-size: 35px; }
-
-    /* Penndelparkering */
-    #popup3 {
-            position: absolute;
-            top: 35px;
-            left: 40px;
-            font-size: 40px;
-            color: blue;
-            font-size: 50px;
-            z-index: 2; /* Set a higher z-index value */
-        }
   </style>
 </head>
 <body>
   <!-- Karta -->
   <div id="osm-map"></div>
+
+  <!-- Tooltip-element -->
+  <div id="tooltip" class="tooltip"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -100,113 +104,40 @@
         })
       });
 
-      // Skapa markörerna med stationsegenskaper för de orter du vill länka till
-      const marker1 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.93242, 59.44424]))
-      });
-      marker1.set('station', 'haggvik');
+      // Skapa markörerna med stationsegenskaper
+      const markersData = [
+        { coords: [17.93242, 59.44424], station: 'haggvik' },
+        { coords: [17.91465, 59.47586], station: 'rotbro' },
+        { coords: [17.899,   59.5208],  station: 'upplands_vasby' },
+        { coords: [17.8801,  59.5836],  station: 'rosersberg' },
+        { coords: [17.86122, 59.62734], station: 'marsta' },
+        { coords: [18.0096,  59.3664],  station: 'solna' },
+        { coords: [18.00038, 59.38073], station: 'ulriksdal' },
+        { coords: [17.9624,  59.409],   station: 'helenelund' },
+        { coords: [17.9482,  59.4287],  station: 'sollentuna' },
+        { coords: [17.9243,  59.459],   station: 'norrviken' },
+        { coords: [17.9364,  59.6461],  station: 'arlanda' },
+        { coords: [17.97187, 59.36073], station: 'sundbyberg' },
+        { coords: [17.8982,  59.3836],  station: 'spanga' },
+        { coords: [17.86436, 59.40515], station: 'barkarby' },
+        { coords: [17.833,   59.4237],  station: 'jakobsberg' },
+        { coords: [17.8073,  59.4522],  station: 'kallhall' },
+        { coords: [17.7522,  59.4776],  station: 'kungsangen' },
+        { coords: [17.63285, 59.51224], station: 'bro' },
+        { coords: [17.53369, 59.56834], station: 'balsta' },
+        { coords: [18.0553,  59.3316],  station: 'stockholm_city' },
+        { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
+      ];
 
-      const marker2 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.91465, 59.47586]))
+      let features = markersData.map(function(item) {
+        let feature = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
+        });
+        feature.set('station', item.station);
+        return feature;
       });
-      marker2.set('station', 'rotbro');
 
-      const marker3 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.899, 59.5208]))
-      });
-      marker3.set('station', 'upplands_vasby');
-
-      const marker4 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.8801, 59.5836]))
-      });
-      marker4.set('station', 'rosersberg');
-
-      const marker5 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86122, 59.62734]))
-      });
-      marker5.set('station', 'marsta');
-
-      const marker6 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([18.0096, 59.3664]))
-      });
-      marker6.set('station', 'solna');
-
-      const marker7 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([18.00038, 59.38073]))
-      });
-      marker7.set('station', 'ulriksdal');
-
-      const marker8 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.9624, 59.409]))
-      });
-      marker8.set('station', 'helenelund');
-
-      const marker9 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.9482, 59.4287]))
-      });
-      marker9.set('station', 'sollentuna');
-
-      const marker10 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.9243, 59.459]))
-      });
-      marker10.set('station', 'norrviken');
-
-      const marker11 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.9364, 59.6461]))
-      });
-      marker11.set('station', 'arlanda');
-
-      const marker12 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.97187, 59.36073]))
-      });
-      marker12.set('station', 'sundbyberg');
-
-      const marker13 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.8982, 59.3836]))
-      });
-      marker13.set('station', 'spanga');
-
-      const marker14 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86436, 59.40515]))
-      });
-      marker14.set('station', 'barkarby');
-
-      const marker15 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.833, 59.4237]))
-      });
-      marker15.set('station', 'jakobsberg');
-
-      const marker16 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.8073, 59.4522]))
-      });
-      marker16.set('station', 'kallhall');
-
-      const marker17 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.7522, 59.4776]))
-      });
-      marker17.set('station', 'kungsangen');
-
-      const marker18 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.63285, 59.51224]))
-      });
-      marker18.set('station', 'bro');
-
-      const marker19 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.53369, 59.56834]))
-      });
-      marker19.set('station', 'balsta');
-
-      const marker20 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([18.0553, 59.3316]))
-      });
-      marker20.set('station', 'stockholm_city');
-
-      const marker21 = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([18.0455, 59.3433]))
-      });
-      marker21.set('station', 'stockholm_city2');
-
-      // Alla markörer ska få samma ikonstil (du kan självklart anpassa per markör)
+      // Skapa en gemensam stil för alla markörer
       const iconStyle = new ol.style.Style({
         image: new ol.style.Icon({
           anchor: [0.5, 1],
@@ -214,17 +145,14 @@
           scale: 0.3
         })
       });
+      features.forEach(feature => feature.setStyle(iconStyle));
 
-      // Applicera stilen på alla markörer
-      const markers = [marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8, marker9, marker10, marker11, marker12, marker13, marker14, marker15, marker16, marker17, marker18, marker19, marker20, marker21];
-      markers.forEach(marker => marker.setStyle(iconStyle));
-
-      // Lägg alla markörer i en vector source
-      const vectorSource = new ol.source.Vector({ features: markers });
+      // Lägg markörerna i en vector source
+      const vectorSource = new ol.source.Vector({ features: features });
       const vectorLayer = new ol.layer.Vector({ source: vectorSource });
       map.addLayer(vectorLayer);
 
-      // Klickhändelse: Om en markör har egenskapen "station", omdirigera till <station>.html
+      // Klickhändelse: vid klick, om stationsegenskapen finns, omdirigera
       map.on('singleclick', function(evt) {
         map.forEachFeatureAtPixel(evt.pixel, function(feature) {
           const station = feature.get('station');
@@ -233,10 +161,32 @@
           }
         });
       });
+
+      // Tooltip-overlay: Skapa ett overlay med tooltip-elementet
+      var tooltipEl = document.getElementById('tooltip');
+      var tooltipOverlay = new ol.Overlay({
+        element: tooltipEl,
+        offset: [10, 0],
+        positioning: 'center-left'
+      });
+      map.addOverlay(tooltipOverlay);
+
+      // Visa tooltip vid hover
+      map.on('pointermove', function(evt) {
+        // Försök hitta en feature under muspekaren
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+          return feature;
+        });
+        if (feature && feature.get('station')) {
+          tooltipEl.innerHTML = feature.get('station');
+          tooltipOverlay.setPosition(evt.coordinate);
+          tooltipEl.style.display = 'block';
+        } else {
+          tooltipEl.style.display = 'none';
+        }
+      });
     });
   </script>
-
-<div id="popup3"><i><b><p>Pendelparkering</p></b></i></div>
 
   <!-- Dropdown-menyer -->
   <div class="dropdown">
