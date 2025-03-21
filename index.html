@@ -10,24 +10,29 @@
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <style>
     /* OpenLayers attribution */
+/* OpenLayers attribution */
 .ol-control.ol-attribution {
+  position: absolute;
   left: 110px;
   padding-right: 100px;
   bottom: 40px;
-  max-width: calc(100% - 110px); /* Begränsa bredden så den slutar på rätt plats */
+  width: calc(100% - 110px); /* Gör bredden lika för båda elementen */
+  height: auto; /* Låt höjden vara flexibel */
 }
 
 /* Extra rad under attribution */
 .custom-attribution {
   position: absolute;
-  left: 60px;
+  left: 110px; /* Samma left-position som .ol-control.ol-attribution */
   bottom: 12px;
   background-color: white;
   padding: 5px 10px;
-  /*border: 1px solid black;*/
   font-size: 12px;
   text-align: center;
+  width: calc(100% - 110px); /* Gör bredden lika för båda elementen */
+  height: auto; /* Låt höjden vara flexibel */
 }
+
 
     /* Karta */
     #osm-map {
