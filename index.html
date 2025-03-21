@@ -10,23 +10,25 @@
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <style>
     /* OpenLayers attribution */
-    .ol-control.ol-attribution {
-      left: 110px;
-      padding-right: 100px;
-      padding: 5px 10px;
-      bottom: 40px;
-    }
-    /* Extra rad under attribution */
-    .custom-attribution {
-      position: absolute;
-      left: 60px;
-      bottom: 12px;
-      background-color: white;
-      padding: 5px 10px;
-      /*border: 1px solid black;*/
-      font-size: 12px;
-      text-align: center;
-    }
+.ol-control.ol-attribution {
+  left: 110px;
+  padding-right: 100px;
+  bottom: 40px;
+  max-width: calc(100% - 110px); /* Begränsa bredden så den slutar på rätt plats */
+}
+
+/* Extra rad under attribution */
+.custom-attribution {
+  position: absolute;
+  left: 60px;
+  bottom: 12px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 12px;
+  text-align: center;
+}
+
     /* Karta */
     #osm-map {
       position: fixed;
