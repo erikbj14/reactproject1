@@ -41,6 +41,21 @@
 }
 
 
+.attribution-container {
+  position: absolute;
+  left: 0px;
+  bottom: 15px;
+  background-color: white;
+  padding: 5px 10px;
+  font-size: 11px;
+  text-align: left;
+  display: flex;
+  gap: 5px; /* Mellanrum mellan elementen */
+  align-items: center;
+}
+
+
+
     /* Karta */
     #osm-map {
       position: fixed;
@@ -251,10 +266,13 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  <div class="ol-control ol-attribution"></div>
-<div class="custom-attribution">
-  <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> |
-  <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
-</div>
+  <div class="attribution-container">
+    <div class="ol-control ol-attribution"></div>
+    <div class="custom-attribution">
+      <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> |
+      <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    </div>
+  </div>
+  
 </body>
 </html>
