@@ -17,28 +17,15 @@
   max-width: calc(100% - 110px);*/ /* Begränsa bredden så den slutar på rätt plats */
 /*}*/
 
-.ol-control.ol-attribution
-{
-  position: absolute;
-  left: 0px;
-  bottom: 60px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-}
-
-/* Extra rad under attribution */
-.custom-attribution {
+.ol-control.ol-attribution, .custom-attribution {
   position: absolute;
   left: 0px;
   bottom: 15px;
   background-color: white;
   padding: 5px 10px;
-  /*border: 1px solid black;*/
   font-size: 11px;
   text-align: left;
+  display: inline-block;
 }
 
     /* Karta */
@@ -251,9 +238,10 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  <div class="custom-attribution">
-    <!--Kartdata från --> <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    <!--och dess bidragsgivare, under --> | <a href="https://opendatacommons.org/licenses/odbl/" target="_blank"> | ODbL-licens</a>.
-  </div>
+  <div class="ol-control ol-attribution"></div>
+<div class="custom-attribution">
+  <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> |
+  <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+</div>
 </body>
 </html>
