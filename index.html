@@ -17,33 +17,29 @@
   max-width: calc(100% - 110px);*/ /* Begränsa bredden så den slutar på rätt plats */
 /*}*/
 
-.attribution-container {
+.ol-control.ol-attribution
+{
   position: absolute;
-  left: 0;
+  left: 0px;
+  bottom: 60px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+}
+
+/* Extra rad under attribution */
+.custom-attribution {
+  position: absolute;
+  left: 0px;
   bottom: 15px;
   background-color: white;
   padding: 5px 10px;
+  /*border: 1px solid black;*/
   font-size: 11px;
-  text-align: center;
-  width: 100%; /* Täcker hela bredden */
-  display: flex;
-  flex-direction: column; /* Lägger texten i två rader */
-  align-items: center;
-  justify-content: center;
+  text-align: left;
 }
-
-.ol-control.ol-attribution {
-  all: unset; /* Tar bort OpenLayers standardpositionering */
-  font-size: 11px;
-  display: block; /* Säkerställer att den blir en egen rad */
-}
-
-.custom-attribution {
-  font-size: 11px;
-}
-
-
-
 
     /* Karta */
     #osm-map {
@@ -116,7 +112,7 @@
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
-    <!--Kartdata från OpenStreetMap och dess bidragsgivare, under ODbL-licens-->
+    Kartdata från OpenStreetMap och dess bidragsgivare, under ODbL-licens
   </div>
   
 
@@ -255,15 +251,9 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  <div class="attribution-container">
-    <span class="ol-control ol-attribution"></span> 
-    <span class="custom-attribution">
-      <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> | 
-      <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>
-    </span>
+  <div class="custom-attribution">
+    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
-  
-  
-  
 </body>
 </html>
