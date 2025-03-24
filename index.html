@@ -17,30 +17,6 @@
   max-width: calc(100% - 110px);*/ /* Begränsa bredden så den slutar på rätt plats */
 /*}*/
 
-.ol-control.ol-attribution, .custom-attribution {
-  position: absolute;
-  left: 0px;
-  bottom: 15px;
-  background-color: white;
-  padding: 5px 10px;
-  font-size: 11px;
-  text-align: left;
-  display: inline-block;
-}
-
-/* Extra rad under attribution */
-.custom-attribution {
-  position: absolute;
-  left: 0px;
-  bottom: 15px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/ 
-  font-size: 11px;
-  text-align: left;
-}
-
-
 .attribution-container {
   position: absolute;
   left: 0px;
@@ -48,31 +24,23 @@
   background-color: white;
   padding: 5px 10px;
   font-size: 11px;
-  text-align: left;
+  text-align: center;
+  width: 100%; /* Gör så att bakgrunden täcker hela bredden */
   display: flex;
-  gap: 5px; /* Mellanrum mellan elementen */
+  flex-direction: column; /* Lägger texten i två rader */
   align-items: center;
-}
-
-.attribution-container {
-  position: absolute;
-  left: 0px;
-  bottom: 15px;
-  background-color: white;
-  padding: 5px 10px;
-  font-size: 11px;
-  text-align: left;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px; /* Mellanrum mellan elementen */
-  align-items: center;
+  justify-content: center;
 }
 
 .ol-control.ol-attribution {
   all: unset;  /* Tar bort OpenLayers standardpositionering */
-  display: inline; /* Gör texten inline */
   font-size: 11px;
 }
+
+.custom-attribution {
+  font-size: 11px;
+}
+
 
 
 
@@ -288,12 +256,13 @@
     </div>
   </div>
   <div class="attribution-container">
-    <span class="ol-control ol-attribution"></span> |
+    <span class="ol-control ol-attribution"></span>
     <span class="custom-attribution">
       <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> |
       <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>
     </span>
   </div>
+  
   
   
 </body>
