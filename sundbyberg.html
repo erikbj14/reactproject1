@@ -9,11 +9,35 @@
     <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
     <style>
     /*openstreetmap contributors*/
-    .ol-control.ol-attribution {
-        left: 160px;
-        padding-right: 120px; /* Adjust the padding on the right side */
-        bottom: 20px; /* Adjust the bottom position */
-    }
+.ol-control.ol-attribution
+{
+  position: absolute;
+  left: 0px;
+  bottom: 53px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+  left: 0px !important;
+    bottom: 53px !important;
+}
+
+/* Extra rad under attribution */
+.custom-attribution {
+  position: absolute;
+  left: 0px;
+  bottom: 35px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+}
+
+.ol-map {
+    position: relative !important;
+}
 
     table {
             background-color:rgba(255, 99, 71, 0.5);
@@ -428,6 +452,10 @@ popupContainer.style.top = pixel[1] + 'px';
     }
 </script>
 </div>
-
+<a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+<div class="custom-attribution">
+  Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
+  och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+</div>
 </body>
 </html>
