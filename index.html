@@ -41,6 +41,18 @@
   text-align: left;
 }
 
+/* för info- länken (om- sidan) */
+.info-attribution {
+  position: absolute; 
+  top: 10px; 
+  right: 10px;  /* Flyttar den till högerkanten istället för en fast left-position */
+  z-index: 4000; 
+  text-decoration: none; 
+  background: white; 
+  padding: 5px 10px; 
+  border-radius: 5px;"
+}
+
     /* Karta */
     #osm-map {
       position: fixed;
@@ -252,18 +264,11 @@
     </div>
   </div>
   
-  <div class="custom-attribution">
-    <a href="om.html" style="
-  position: absolute; 
-  top: 10px; 
-  right: 10px;  /* Flyttar den till högerkanten istället för en fast left-position */
-  z-index: 4000; 
-  text-decoration: none; 
-  background: white; 
-  padding: 5px 10px; 
-  border-radius: 5px;">
+<div class="info-attribution">
+    <a href="om.html">
   ℹ️
-</a>
+</a></div>
+<div class="custom-attribution">
     Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
     och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
