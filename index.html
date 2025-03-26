@@ -138,7 +138,7 @@
       // Skapa markörerna med stationsegenskaper
       const markersData = [
         { coords: [17.93242, 59.44424], station: 'haggvik' },
-        { coords: [17.91465, 59.47586], station: 'rotbro' },
+        { coords: [17.91465, 59.47586], station: 'rotebro' },
         { coords: [17.899,   59.5208],  station: 'upplands_vasby' },
         { coords: [17.8801,  59.5836],  station: 'rosersberg' },
         { coords: [17.86122, 59.62734], station: 'marsta' },
@@ -251,7 +251,17 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  <a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+  <a href="om.html" style="
+  position: absolute; 
+  top: 10px; 
+  right: 10px;  /* Flyttar den till högerkanten istället för en fast left-position */
+  z-index: 4000; 
+  text-decoration: none; 
+  background: white; 
+  padding: 5px 10px; 
+  border-radius: 5px;">
+  ℹ️
+</a>
   <div class="custom-attribution">
     Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
     och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
