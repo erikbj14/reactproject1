@@ -24,16 +24,17 @@
     bottom: 90px !important;
 }
 
-/* Extra rad under attribution */
 .custom-attribution {
   position: absolute;
   left: 0px;
   bottom: 35px;
   background-color: white;
   padding: 5px 10px;
-  /*border: 1px solid black;*/
   font-size: 11px;
   text-align: left;
+  white-space: nowrap; /* Förhindrar att texten bryts */
+  border-radius: 3px; /* Lägg till om originalet har rundade hörn */
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.2); /* Simulerar eventuell skuggning */
 }
 
 .ol-map {
@@ -201,7 +202,7 @@ map.addLayer(vectorLayer11);
 
 </script>
 
-<table width="440" border="1">
+<table width="440" border="0">
     <tr>
         <th width="15"><img src="parking2.svg"></th>
         <th width="185" align="left">Pendelparkering</th>
@@ -235,7 +236,7 @@ map.addLayer(vectorLayer11);
 </table>
     <!--Industrivägen-->
     <div id="popup-container2">
-        <table width="300" border="1">
+        <table width="300" border="0">
 
             <tr>
                 <th width="15"><img src="parking.svg"></th>
@@ -247,7 +248,7 @@ map.addLayer(vectorLayer11);
 
             </tr>
             <tr>
-                    <td colspan="5" rowspan="5"><table border="1"><tr><td align="left">Stockholm City har inga infartsparkeringar för pendlare. Taxor som gäller för parkering i Stockholm City:<br>
+                    <td colspan="5" rowspan="5"><table border="0"><tr><td align="left">Stockholm City har inga infartsparkeringar för pendlare. Taxor som gäller för parkering i Stockholm City:<br>
                     <br>Taxeområde 2
 
                     Vardag utom vardag före sön– och helgdag: 31 kronor per timme, mellan klockan 07.00 och 21.00. Övrig tid 20 kronor per timme.<br>
