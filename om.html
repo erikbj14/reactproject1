@@ -9,14 +9,30 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
         }
         .container {
             max-width: 600px;
             margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         img.logo {
             max-width: 150px;
             margin-bottom: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .info {
+            text-align: left;
+        }
+        .highlight {
+            color: #28a745;
+            font-weight: bold;
         }
         .feedback {
             margin-top: 20px;
@@ -27,25 +43,35 @@
             font-size: 12px;
             color: gray;
         }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="logo.jpg" alt="Appens logotyp" class="logo"> <!-- Lägg till din logga här -->
+        <img src="logo.jpg" alt="Appens logotyp" class="logo"> 
 
         <h1>Om appen</h1>
-        <p>Den här appen har som mål att hjälpa pendlare hitta parkeringsplatser för att underlätta vardagen. Pendelparkeringar är parkeringsplatser som finns längs pendelstågssträckorna från Stockholm City och norrut, hela vägen till Märsta och Arlanda.</p>
+        <p class="info">Den här appen hjälper pendlare att hitta <span class="highlight">pendelparkeringar</span> längs pendelstågssträckorna från Stockholm City till Märsta och Arlanda.</p>
 
-        <p>Jag reserverar mig för eventuella felaktigheter. Villkoren för parkeringarna kan ändras, och jag försöker uppdatera informationen löpande.</p>
+        <p class="info">Förutom parkeringar kan du även se <span class="highlight">tågtider</span> för respektive station, med data hämtad från <a href="https://www.trafikverket.se/" target="_blank">Trafikverket</a>.</p>
+
+        <p class="info">Jag reserverar mig för eventuella felaktigheter. Villkoren kan ändras, men jag försöker hålla informationen uppdaterad.</p>
         
-        <p>Jag tar gärna emot tips om nya parkeringar samt rättelser om något blivit fel. Med din hjälp kan vi göra den här till en riktigt grym parkeringsapp för pendlare!</p>
-        
+        <p class="info">Har du tips om nya parkeringar eller rättelser? Hör gärna av dig!</p>
+
         <div class="feedback">
-            <p>Har du tips eller rättelser? Skicka gärna ett mail till: <a href="mailto:dinmail@exempel.com">dinmail@exempel.com</a></p>
+            <p>• Har du tips eller rättelser? Skicka gärna ett mail till: <a href="mailto:dinmail@exempel.com">dinmail@exempel.com</a></p>
+            <p>• Är du intresserad av att samarbeta eller investera i appen? Kontakta mig på: <a href="mailto:dinprivatmail@exempel.com">dinprivatmail@exempel.com</a></p>
         </div>
         
-        <p><a href="index.html">Tillbaka till kartan</a></p>
+        <p><a href="index.html">⬅️ Tillbaka till kartan</a></p>
 
         <p class="copyright">© 2024 Erik Björk (Erik Solutions). Alla rättigheter förbehållna.</p>
     </div>
