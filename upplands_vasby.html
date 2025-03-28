@@ -664,6 +664,10 @@ map.addLayer(vectorLayer6a);
 
 </div>
 
+<div id="popup-container9">
+
+</div>
+
 <table id="display-info-table" width="200" border="0">
     <tr>
         <td colspan="2" align="left" style="font-size: smaller;">
@@ -727,6 +731,7 @@ document.getElementById("reloadButton").hidden = "";
 document.getElementById("popup-container2").style.display = "none";
 document.getElementById("popup-container4").style.display = "none";
 document.getElementById("popup-container8").style.display = "none";
+document.getElementById("popup-container9").style.display = "none";
 const clickedCoord = event.coordinate;
 
 // Adjust the clicked coordinate (move slightly to the left and up)
@@ -768,6 +773,7 @@ popupContainer.style.top = pixel[1] + 'px';
             document.getElementById("popup-container2").style.display = "block";
             document.getElementById("popup-container4").style.display = "none";
             document.getElementById("popup-container8").style.display = "none";
+            document.getElementById("popup-container9").style.display = "none";
         }
         else if (id === "demo2") {
             //alert(document.getElementById("demo2").innerHTML)
@@ -775,6 +781,7 @@ popupContainer.style.top = pixel[1] + 'px';
             document.getElementById("popup-container4").style.display = "block";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container8").style.display = "none";
+            document.getElementById("popup-container9").style.display = "none";
         }
         else if (id === "demo3") {
             //alert(document.getElementById("demo3").innerHTML)
@@ -782,13 +789,15 @@ popupContainer.style.top = pixel[1] + 'px';
             document.getElementById("popup-container8").style.display = "block";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
+            document.getElementById("popup-container9").style.display = "none";
         }
         else if (id === "demo4") {
             //alert(document.getElementById("demo4").innerHTML)
-            document.getElementById("demo4").innerHTML = "Pukslagarvägen";
-            document.getElementById("popup-container8").style.display = "block";
+            document.getElementById("demo4").innerHTML = "Väsby Centrum";
+            document.getElementById("popup-container9").style.display = "block";
             document.getElementById("popup-container2").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
+            document.getElementById("popup-container8").style.display = "none";
         }
         
     }
