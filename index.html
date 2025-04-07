@@ -11,54 +11,53 @@
   <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
-    /* OpenLayers attribution 
-.ol-control.ol-attribution {
-  left: 110px;
-  padding-right: 100px;
-  bottom: 40px;
-  max-width: calc(100% - 110px);*/ /* Begränsa bredden så den slutar på rätt plats */
-/*}*/
-
-/*openstreetmap contributors*/
-/* Dölj OpenLayers standard-attribution */
-.ol-attribution.ol-unselectable.ol-control {
-  display: none;
-}
-
-/* Din egen attribution längst ner till höger */
-.custom-attribution {
-  position: absolute;
-  right: 10px;
-  bottom: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 4px 8px;
-  font-size: 11px;
-  text-align: right;
-  z-index: 1000;
-}
-
-/* Stil för info-länken (ℹ️) */
-.info-attribution {
-  position: absolute; 
-  top: 14px; 
-  left: 320px;  /* Anpassa efter behov */
-  z-index: 4000; 
-  text-decoration: none; /* Tar bort eventuell understrykning */
-  background: none; /* Ingen bakgrund */
-  border: none; /* Ingen kant */
-  font-size: 24px; /* Gör den tydligare */
-  color: blue; /* Blå färg */
-}
-
+    /* OpenLayers attribution */
+    .ol-control.ol-attribution {
+      position: absolute;
+      left: 0;
+      bottom: 40px; /* Så den inte krockar med custom-raden */
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+      z-index: 1000;
+    }
+  
+    /* Extra rad under attribution */
+    .custom-attribution {
+      position: absolute;
+      left: 0;
+      bottom: 15px;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+      z-index: 999;
+    }
+  
+    /* Stil för info-länken (ℹ️) */
+    .info-attribution {
+      position: absolute; 
+      top: 14px; 
+      left: 320px;
+      z-index: 4000;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: blue;
+    }
+  
     /* Karta */
     #osm-map {
       position: fixed;
       height: 740px;
       width: 440px;
-      top: 0px;
-      left: 0px;
+      top: 0;
+      left: 0;
     }
-    /* Tooltip-stil */
+  
+    /* Tooltip */
     .tooltip {
       background-color: white;
       border: 1px solid black;
@@ -69,6 +68,7 @@
       display: none;
       pointer-events: none;
     }
+  
     /* Dropdown-stilar */
     .dropdown, .dropdown2 {
       position: absolute;
@@ -76,8 +76,10 @@
       display: inline-block;
       z-index: 4000;
     }
+  
     .dropdown { left: 155px; }
     .dropdown2 { left: 10px; }
+  
     .dropbtn {
       background-color: #3498DB;
       color: white;
@@ -86,9 +88,11 @@
       border: none;
       cursor: pointer;
     }
+  
     .dropbtn:hover, .dropbtn:focus {
       background-color: #2980B9;
     }
+  
     .dropdown-content, .dropdown2-content {
       display: none;
       position: absolute;
@@ -100,21 +104,26 @@
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
     }
+  
     .dropdown-content a, .dropdown2-content a {
       color: black;
       padding: 12px 16px;
       text-decoration: none;
       display: block;
     }
+  
     .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
     }
+  
     .dropdown:hover .dropdown-content,
     .dropdown2:hover .dropdown2-content {
       display: block;
     }
+  
     p { font-size: 35px; }
   </style>
+  
 </head>
 <body>
   <!-- Karta -->
