@@ -20,28 +20,21 @@
 /*}*/
 
 /*openstreetmap contributors*/
-.ol-control.ol-attribution
-{
-  position: absolute;
-  left: 0px;
-  bottom: 53px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
+/* Dölj OpenLayers standard-attribution */
+.ol-attribution.ol-unselectable.ol-control {
+  display: none;
 }
 
-/* Extra rad under attribution */
+/* Din egen attribution längst ner till höger */
 .custom-attribution {
   position: absolute;
-  left: 0px;
-  bottom: 15px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
+  right: 10px;
+  bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
   font-size: 11px;
-  text-align: left;
+  text-align: right;
+  z-index: 1000;
 }
 
 /* Stil för info-länken (ℹ️) */
@@ -275,8 +268,8 @@
   
   <a href="om.html" class="info-attribution">ℹ️</a>
   <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | 
+    Data under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL</a>
   </div>
 </body>
 </html>
