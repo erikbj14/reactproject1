@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- OpenLayers CSS och JS -->
   <!--<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />-->
-  <!--<link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol.css">-->
+  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol.css">
   <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
     <style>
@@ -16,37 +16,39 @@ table {
         background-color:rgba(255, 99, 71, 0.5);
     }
 
-/*openstreetmap contributors*/
-.ol-control.ol-attribution
-{
-  position: absolute;
-  left: 0px;
-  bottom: 90px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-  left: 0px !important;
-    bottom: 90px !important;
-}
-
 /* Extra rad under attribution */
 .custom-attribution {
-  position: absolute;
-  left: 0px;
-  bottom: 35px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-}
-
-.ol-map {
-    position: relative !important;
-}
-       /* Set the map height */
+      position: absolute;
+      left: 0;
+      bottom: 15px;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+      z-index: 999;
+    }
+  
+    /* Stil för info-länken (ℹ️) */
+    .info-attribution {
+      position: absolute; 
+      top: 14px; 
+      left: 320px;
+      z-index: 4000;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: blue;
+    }
+  
+    /* Karta */
+    #osm-map {
+      position: fixed;
+      height: 740px;
+      width: 440px;
+      top: 0;
+      left: 0;
+    }       /* Set the map height */
        #osm-map {
             position: absolute;
             height: 665px;
