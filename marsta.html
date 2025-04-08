@@ -17,31 +17,30 @@ table {
     }
 
 /*openstreetmap contributors*/
-.ol-control.ol-attribution
-{
-  position: absolute;
-  left: 0px;
-  bottom: 90px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-  left: 0px !important;
-    bottom: 90px !important;
-}
-
 /* Extra rad under attribution */
 .custom-attribution {
-  position: absolute;
-  left: 0px;
-  bottom: 35px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-}
+      position: absolute;
+      left: 0;
+      bottom: 15px;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+      z-index: 999;
+    }
+  
+    /* Stil för info-länken (ℹ️) */
+    .info-attribution {
+      position: absolute; 
+      top: 14px; 
+      left: 320px;
+      z-index: 4000;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: blue;
+    }
 
 .ol-map {
     position: relative !important;
