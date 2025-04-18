@@ -16,38 +16,36 @@ table {
         background-color:rgba(255, 99, 71, 0.5);
     }
 
+ /*openstreetmap contributors*/
+ .ol-control.ol-attribution
+{
+  position: absolute;
+  left: 0px;
+  bottom: 85px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+  left: 0px !important;
+    bottom: 85px !important;
+}
+
 /* Extra rad under attribution */
 .custom-attribution {
-      position: absolute;
-      left: 0;
-      bottom: 15px;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-      z-index: 999;
-    }
-  
-    /* Stil för info-länken (ℹ️) */
-    .info-attribution {
-      position: absolute; 
-      top: 14px; 
-      left: 320px;
-      z-index: 4000;
-      text-decoration: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: blue;
-    }
-        /* Set the map height */
-       #osm-map {
-            position: absolute;
-            height: 665px;
-            width: 440px;
-            top: 80px;
-            left: 8px;
-        }
+  position: absolute;
+  left: 0px;
+  bottom: 35px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+}
+
+.ol-map {
+    position: relative !important;
+}
    
         .dropdown {
             bottom: 100%;
@@ -664,7 +662,6 @@ popupContainer.style.top = pixel[1] + 'px';
 </div>
 <a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
 <div class="custom-attribution">
-    © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | <br>
   Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
   och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
 </div>
