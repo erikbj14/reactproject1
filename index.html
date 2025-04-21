@@ -11,30 +11,36 @@
   <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
-    /* OpenLayers attribution */
-    .ol-control.ol-attribution {
-      position: relative;
-      left: 0;
-      bottom: 40px; /* Så den inte krockar med custom-raden */
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-      z-index: 1000;
-    }*/
-  
-    /* Extra rad under attribution */
-    .custom-attribution {
-      position: absolute;
-      left: 0;
-      bottom: 15px;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-      z-index: 999;
-    }
-  
+    /*openstreetmap contributors*/
+.ol-control.ol-attribution
+{
+  position: absolute;
+  left: 0px;
+  bottom: 80px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+  left: 0px !important;
+    bottom: 80px !important;
+}
+
+/* Extra rad under attribution */
+.custom-attribution {
+  position: absolute;
+  left: 0px;
+  bottom: 35px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+}
+
+.ol-map {
+    position: relative !important;
+}  
     /* Stil för info-länken (ℹ️) */
     .info-attribution {
       position: absolute; 
@@ -276,9 +282,9 @@
   </div>
   
   <a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
-<div class="custom-attribution">
-  Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-  och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
-</div>
+  <div class="custom-attribution">
+    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+  </div>
 </body>
 </html>
