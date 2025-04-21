@@ -170,16 +170,12 @@ table {
     <script>
 
 var map = new ol.Map({
-  target: 'osm-map',
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM({
-        attributions: [
-          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        ]
-      })
-    })
-  ],
+    target: 'osm-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
   view: new ol.View({
     center: ol.proj.fromLonLat([17.8621, 59.6268]),
     zoom: 15
