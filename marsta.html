@@ -1,128 +1,129 @@
 <!DOCTYPE html>
 <html lang="sv">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marsta Karta</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Märsta Karta</title>
 
-  <!-- OpenLayers CSS -->
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
+    <!-- Byt ut gamla CDN mot din GitHub-hostade version -->
+    <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css" />
+    <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
 
-  <!-- Stil -->
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: sans-serif;
-    }
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+      }
 
-    /* Se till att kartan fyller hela skärmen, även mobil */
-    #map {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 100vh;
-      width: 100vw;
-    }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
 
-    .ol-popup {
-      background-color: white;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      min-width: 150px;
-      position: absolute;
-      bottom: 12px;
-      left: -50px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    @media (max-width: 600px) {
       .ol-popup {
-        font-size: 13px;
-        min-width: 130px;
-        padding: 8px;
+        position: absolute;
+        background-color: white;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 180px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
       }
-    }
-  </style>
-</head>
-<body>
 
-  <div id="map"></div>
-  <div id="popup" class="ol-popup"></div>
+      .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
 
-  <!-- OpenLayers JS -->
-  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
-  <script>
-    const map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup"></div>
+
+    <script>
+      const map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([17.851, 59.621]), // Märsta
+          zoom: 14
         })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([17.851, 59.621]), // Märsta
-        zoom: 13
-      })
-    });
+      });
 
-    // Marker + stil
-    const marker = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([17.851, 59.621])),
-      name: "Märsta Station"
-    });
+      // Skapa en markör
+      const marker = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([17.851, 59.621])),
+        name: 'Märsta station'
+      });
 
-    marker.setStyle(new ol.style.Style({
-      image: new ol.style.Icon({
-        anchor: [0.5, 1],
-        src: 'https://openlayers.org/en/v4.6.5/examples/data/icon.png',
-        scale: 1
-      })
-    }));
+      marker.setStyle(new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 1],
+          src: 'https://openlayers.org/en/v4.6.5/examples/data/icon.png',
+          scale: 1
+        })
+      }));
 
-    const vectorSource = new ol.source.Vector({
-      features: [marker]
-    });
+      const vectorSource = new ol.source.Vector({
+        features: [marker]
+      });
 
-    const markerLayer = new ol.layer.Vector({
-      source: vectorSource
-    });
+      const markerLayer = new ol.layer.Vector({
+        source: vectorSource
+      });
 
-    map.addLayer(markerLayer);
+      map.addLayer(markerLayer);
 
-    // Popup
-    const popup = document.getElementById('popup');
-    const overlay = new ol.Overlay({
-      element: popup,
-      autoPan: {
-        animation: {
-          duration: 250
+      // Popup-element
+      const popup = document.getElementById('popup');
+      const overlay = new ol.Overlay({
+        element: popup,
+        positioning: 'bottom-center',
+        stopEvent: false,
+        offset: [0, -40]
+      });
+
+      map.addOverlay(overlay);
+
+      // Visa popup vid klick
+      map.on('click', function (evt) {
+        const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
+        if (feature) {
+          const coordinates = feature.getGeometry().getCoordinates();
+          overlay.setPosition(coordinates);
+          popup.innerHTML = `<strong>${feature.get('name')}</strong><br>Central punkt i Märsta.`;
+        } else {
+          overlay.setPosition(undefined);
         }
-      },
-      positioning: 'bottom-center',
-      stopEvent: false,
-      offset: [0, -40]
-    });
-
-    map.addOverlay(overlay);
-
-    map.on('click', function (evt) {
-      const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
-      if (feature) {
-        const coordinates = feature.getGeometry().getCoordinates();
-        overlay.setPosition(coordinates);
-        popup.innerHTML = `<strong>${feature.get('name')}</strong><br>En central plats i Märsta.`;
-      } else {
-        overlay.setPosition(undefined);
-      }
-    });
-  </script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>
