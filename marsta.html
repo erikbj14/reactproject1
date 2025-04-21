@@ -13,22 +13,18 @@
     <!--Test-->
     <style>
 
-table {
-        background-color:rgba(255, 99, 71, 0.5);
-    }
-
-    .ol-control.ol-attribution
-{
+.ol-control.ol-attribution {
   position: absolute;
-  left: 0px;
-  bottom: 103px;
+  left: 0px !important;
+  bottom: 85px !important;
   background-color: white;
   padding: 5px 10px;
-  /*border: 1px solid black;*/
   font-size: 11px;
   text-align: left;
-  left: 0px !important;
-    bottom: 103px !important;
+  white-space: nowrap;         /* Förhindrar radbrytning */
+  overflow: hidden;            /* Döljer eventuell överskotts-text */
+  text-overflow: ellipsis;     /* Lägger till "..." om det behövs */
+  max-width: 100%;             /* Se till att den inte går utanför kartan */
 }
 
 /* Extra rad under attribution */
@@ -92,6 +88,10 @@ table {
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
         }
+
+        table {
+        background-color:rgba(255, 99, 71, 0.5);
+    }
 
        /*Västra Bangatan*/
        #popup-container2 {
