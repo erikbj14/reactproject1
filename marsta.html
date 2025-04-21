@@ -2,36 +2,36 @@
 <html lang="sv">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Märsta Karta</title>
-
-    <!-- Byt ut gamla CDN mot din GitHub-hostade version -->
-    <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Märsta</title>
+    
+    <!-- Din egen hostade OpenLayers -->
+    <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
     <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
-
+    
     <style>
       html, body {
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: Arial, sans-serif;
+        width: 100%;
       }
 
       #map {
-        width: 100%;
         height: 100%;
+        width: 100%;
       }
 
       .ol-popup {
         position: absolute;
         background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         padding: 15px;
         border-radius: 10px;
         border: 1px solid #cccccc;
         bottom: 12px;
         left: -50px;
         min-width: 180px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
       }
 
       .ol-popup:after, .ol-popup:before {
@@ -73,12 +73,11 @@
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([17.851, 59.621]), // Märsta
+          center: ol.proj.fromLonLat([17.851, 59.621]),
           zoom: 14
         })
       });
 
-      // Skapa en markör
       const marker = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([17.851, 59.621])),
         name: 'Märsta station'
@@ -102,7 +101,6 @@
 
       map.addLayer(markerLayer);
 
-      // Popup-element
       const popup = document.getElementById('popup');
       const overlay = new ol.Overlay({
         element: popup,
@@ -113,7 +111,6 @@
 
       map.addOverlay(overlay);
 
-      // Visa popup vid klick
       map.on('click', function (evt) {
         const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
         if (feature) {
