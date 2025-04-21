@@ -8,7 +8,7 @@
   <!-- Länka till OpenLayers CSS -->
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
 
-  <!-- Grundläggande stil för att visa kartan korrekt -->
+  <!-- Stil -->
   <style>
     html, body {
       margin: 0;
@@ -19,35 +19,91 @@
       width: 100%;
       height: 100%;
     }
+
+    .ol-popup {
+      background-color: white;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-width: 150px;
+      position: absolute;
+      bottom: 12px;
+      left: -50px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Här visas kartan -->
+  <!-- Kartan -->
   <div id="map"></div>
 
-  <!-- Ladda in OpenLayers JS -->
-  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
+  <!-- Popup-overlay -->
+  <div id="popup" class="ol-popup"></div>
 
-  <!-- Initiera kartan -->
+  <!-- JS -->
+  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
   <script>
-    // Kolla om ol finns (debuggsyfte)
-    if (typeof ol === 'undefined') {
-      alert('OpenLayers kunde inte laddas!');
-    } else {
-      const map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([17.851, 59.621]), // Märsta koordinater
-          zoom: 13
+    // Skapa karta
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
         })
-      });
-    }
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([17.851, 59.621]), // Märsta
+        zoom: 13
+      })
+    });
+
+    // Märsta station feature
+    const marker = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([17.851, 59.621])),
+      name: "Märsta Station"
+    });
+
+    // Stil för markör
+    marker.setStyle(new ol.style.Style({
+      image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: 'https://openlayers.org/en/v4.6.5/examples/data/icon.png'
+      })
+    }));
+
+    const vectorSource = new ol.source.Vector({
+      features: [marker]
+    });
+
+    const markerLayer = new ol.layer.Vector({
+      source: vectorSource
+    });
+
+    map.addLayer(markerLayer);
+
+    // Popup-overlay
+    const popup = document.getElementById('popup');
+    const overlay = new ol.Overlay({
+      element: popup,
+      autoPan: true,
+      positioning: 'bottom-center',
+      stopEvent: false,
+      offset: [0, -40]
+    });
+    map.addOverlay(overlay);
+
+    // Klick på markör
+    map.on('click', function (evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
+      if (feature) {
+        const coordinates = feature.getGeometry().getCoordinates();
+        overlay.setPosition(coordinates);
+        popup.innerHTML = `<strong>${feature.get('name')}</strong><br>En central plats i Märsta.`;
+      } else {
+        overlay.setPosition(undefined);
+      }
+    });
   </script>
 
 </body>
