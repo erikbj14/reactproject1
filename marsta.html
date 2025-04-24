@@ -63,77 +63,121 @@
       left: 0;
     }
   
-    /* Tooltip */
-    .tooltip {
-      background-color: white;
-      border: 1px solid black;
-      padding: 4px;
-      position: absolute;
-      white-space: nowrap;
-      font-size: 12px;
-      display: none;
-      pointer-events: none;
+    .dropdown {
+            bottom: 100%;
+            display: none;
+            position: absolute;
+            top: 450px; /* Adjust the top position as needed */
+            left: 10px; /* Adjust the left position as needed */
+            display: inline-block;
+            z-index: 4000;
+        }
+   
+            .dropdown:hover .dropdown-content {
+                display: block;
+                bottom: 100%;
+            }
+   
+        .dropbtn {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+   
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #2980B9;
+            }
+   
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        table {
+        background-color:rgba(255, 99, 71, 0.5);
     }
-  
-    /* Dropdown-stilar */
-    .dropdown, .dropdown2 {
-      position: absolute;
-      top: 550px;
-      display: inline-block;
-      z-index: 4000;
-    }
-  
-    .dropdown { left: 155px; }
-    .dropdown2 { left: 10px; }
-  
-    .dropbtn {
-      background-color: #3498DB;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-  
-    .dropbtn:hover, .dropbtn:focus {
-      background-color: #2980B9;
-    }
-  
-    .dropdown-content, .dropdown2-content {
-      display: none;
-      position: absolute;
-      bottom: 100%;
-      top: auto;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      overflow: auto;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-  
-    .dropdown-content a, .dropdown2-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-  
-    .dropdown-content a:hover, .dropdown2-content a:hover {
-      background-color: #ddd;
-    }
-  
-    .dropdown:hover .dropdown-content,
-    .dropdown2:hover .dropdown2-content {
-      display: block;
-    }
-  
-    p { font-size: 35px; }
+
+       /*Västra Bangatan*/
+       #popup-container2 {
+            position: absolute;
+            top: 80px;
+            left: 0px;
+            height: 110px;
+            width: 450px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid blue; /* Change the border color to blue */
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+            display: none; /* Initially hidden */
+        }
+   
+        #popup3 {
+            position: absolute;
+            top: 245px;
+            left: 150px;
+            font-size: 50px;
+            color: blue;
+            font-size: 50px;
+            z-index: 2; /* Set a higher z-index value */
+        }
+
+         /*Brobyvägen*/
+         #popup-container4 {
+            position: absolute;
+            top: 80px;
+            left: 0px;
+            height: 80px;
+            width: 450px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid blue; /* Change the border color to blue */
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+            display: none; /* Initially hidden */
+        }
+
+        #display-info-table {
+            position: absolute;
+            top: 380px;
+            left: 0px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+        }
+
+        #display-info-table th, #display-info-table td {
+            padding: 5px;
+            padding-top: 2px;
+            /*border: 1px solid black;*/
+        }
+
   </style>
   
 </head>
 <body>
   <!-- Karta -->
-  <div id="osm-map"></div>
+
+
+
+  <div id="osm-map"><div class="dropdown">
+
+<a href="index.html">
+    <button>Tillbaka</button>
+</a></div>
 
   <div class="custom-attribution">
     Kartdata från OpenStreetMap och dess bidragsgivare, under ODbL-licens
