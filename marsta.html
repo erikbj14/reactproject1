@@ -13,18 +13,18 @@
     <!--Test-->
     <style>
 
-.ol-control.ol-attribution
-{
+.ol-control.ol-attribution {
   position: absolute;
-  left: 0px;
-  bottom: 80px;
+  left: 0px !important;
+  bottom: 85px !important;
   background-color: white;
   padding: 5px 10px;
-  border: 1px solid black;
   font-size: 11px;
   text-align: left;
-  left: 0px !important;
-    bottom: 80px !important;
+  white-space: nowrap;         /* Förhindrar radbrytning */
+  overflow: hidden;            /* Döljer eventuell överskotts-text */
+  text-overflow: ellipsis;     /* Lägger till "..." om det behövs */
+  max-width: 100%;             /* Se till att den inte går utanför kartan */
 }
 
 /* Extra rad under attribution */
@@ -44,7 +44,7 @@
 }
        /* Set the map height */
        #osm-map {
-            position: fixed;
+            position: absolute;
             height: 662px;
             width: 440px;
             top: 78px;
@@ -168,6 +168,17 @@
     </div>
     <script>
 
+var map = new ol.Map({
+    target: 'osm-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
+    view: new ol.View({
+                    center: ol.proj.fromLonLat([17.9261, 59.4552]), 
+                    zoom: 15 // You can adjust the zoom level as needed
+    })})
 
 // Marker 1 Märsta station
 const marker11 = new ol.Feature({
@@ -499,6 +510,7 @@ map.addLayer(vectorLayer4b);
         <td id="color-indicator-cell-3" style="width: 80%;"></td>
     </tr>
 </table>
+
 <script>
 function updateInformation() {
     const currentDate = new Date();
@@ -654,32 +666,12 @@ popupContainer.style.top = pixel[1] + 'px';
             document.getElementById("popup-container2").style.display = "none";
         }
     }
-
-    
 </script>
-
 </div>
 <a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
 <div class="custom-attribution">
   Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
   och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
 </div>
-
-<script defer>
-    window.addEventListener('DOMContentLoaded', function () {
-        var map = new ol.Map({
-    target: 'osm-map',
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        })
-    ],
-    view: new ol.View({
-                    center: ol.proj.fromLonLat([17.9261, 59.4552]), 
-                    zoom: 15 // You can adjust the zoom level as needed
-    })})
-    });
-  </script>
-
 </body>
 </html>
