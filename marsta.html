@@ -1,25 +1,26 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>OpenStreetMap med Tooltips</title>
-  <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- OpenLayers CSS och JS -->
+    <meta charset="UTF-8">
+    <title>OpenStreetMap</title>
+    <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- OpenLayers CSS och JS -->
   <!--<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />-->
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
+  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol.css">
   <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
-  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
-  <style>
-    /*openstreetmap contributors*/
-    .ol-control.ol-attribution
+  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js"></script>
+    <!--Test-->
+    <style>
+
+.ol-control.ol-attribution
 {
   position: absolute;
   left: 0px;
   bottom: 80px;
   background-color: white;
   padding: 5px 10px;
-  /*border: 1px solid black;*/
+  border: 1px solid black;
   font-size: 11px;
   text-align: left;
   left: 0px !important;
@@ -40,31 +41,24 @@
 
 .ol-map {
     position: relative !important;
-}  
-    /* Stil för info-länken (ℹ️) */
-    .info-attribution {
-      position: absolute; 
-      top: 14px; 
-      left: 320px;
-      z-index: 4000;
-      text-decoration: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: blue;
-    }
-  
-    /* Set the map height */
-    #osm-map {
+}
+       /* Set the map height */
+       #osm-map {
             position: fixed;
             height: 662px;
             width: 440px;
             top: 78px;
             left: 8px;
         }
-  
-    /*Västra Bangatan*/
-    #popup-container2 {
+   
+        
+
+        table {
+        background-color:rgba(255, 99, 71, 0.5);
+    }
+
+       /*Västra Bangatan*/
+       #popup-container2 {
             position: absolute;
             top: 80px;
             left: 0px;
@@ -122,19 +116,249 @@
             padding-top: 2px;
             /*border: 1px solid black;*/
         }
-  </style>
-  
+
+    </style>
 </head>
 <body>
-  <!-- Karta -->
+    
+<!-- First Map -->
+<div id="osm-map">
+    <div class="dropdown">
+
+        <a href="index.html">
+            <button>Tillbaka</button>
+        </a>
+        </div>
+    </div>
+    <script>
 
 
+// Marker 1 Märsta station
+const marker11 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.8615, 59.62775])),
+});
 
-  <div id="osm-map"><div class="dropdown">
+const markerStyle11 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './location-dot-solid.svg',
+        scale: 2,
+    }),
+});
 
-<a href="index.html">
-    <button>Tillbaka</button>
-</a></div>
+marker11.setStyle(markerStyle11);
+
+const vectorSource11 = new ol.source.Vector({
+    features: [marker11],
+});
+
+const vectorLayer11 = new ol.layer.Vector({
+    source: vectorSource11,
+});
+map.addLayer(vectorLayer11);
+
+    // Marker 1 industrivägen
+    const marker1 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.899, 59.5187])),
+});
+
+const markerStyle1 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './parking.svg',
+        scale: 2,
+    }),
+});
+
+marker1.setStyle(markerStyle1);
+
+const vectorSource1 = new ol.source.Vector({
+    features: [marker1],
+});
+
+const vectorLayer1 = new ol.layer.Vector({
+    source: vectorSource1,
+});
+map.addLayer(vectorLayer1);
+
+// Västra Bangatan
+const marker2 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.85978, 59.62945])), // Adjust the longitude value
+});
+
+const markerStyle2 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './parking.svg',
+        scale: 2,
+    }),
+});
+ 
+marker2.setStyle(markerStyle2);
+
+const vectorSource2 = new ol.source.Vector({
+    features: [marker2], // Use marker2 as the feature
+});
+
+const vectorLayer2 = new ol.layer.Vector({
+    source: vectorSource2, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer2);
+
+// 86111
+const marker2a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.85978, 59.62935])), // Adjust the longitude value
+});
+
+const markerStyle2a = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './86111.png',
+        scale: 0.1,
+    }),
+});
+ 
+marker2a.setStyle(markerStyle2a);
+
+const vectorSource2a = new ol.source.Vector({
+    features: [marker2a], // Use marker2 as the feature
+});
+
+const vectorLayer2a = new ol.layer.Vector({
+    source: vectorSource2a, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer2a);
+
+// Västra Bangatan II
+const marker3 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86086, 59.63088])), // Adjust the longitude value
+});
+
+const markerStyle3 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './parking.svg',
+        scale: 2,
+    }),
+});
+
+marker3.setStyle(markerStyle3);
+
+const vectorSource3 = new ol.source.Vector({
+    features: [marker3], // Use marker2 as the feature
+});
+
+const vectorLayer3 = new ol.layer.Vector({
+    source: vectorSource3, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer3);
+// 86111 II
+const marker3a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86086, 59.63078])), // Adjust the longitude value
+});
+
+const markerStyle3a = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './86111.png',
+        scale: 0.1,
+    }),
+});
+
+marker3a.setStyle(markerStyle3a);
+
+const vectorSource3a = new ol.source.Vector({
+    features: [marker3a], // Use marker2 as the feature
+});
+
+const vectorLayer3a = new ol.layer.Vector({
+    source: vectorSource3a, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer3a);
+
+// Brobyvägen
+const marker4 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86364, 59.62984])), // Adjust the longitude value
+});
+
+const markerStyle4 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './parking.svg',
+        scale: 2,
+    }),
+});
+ 
+marker4.setStyle(markerStyle4);
+
+const vectorSource4 = new ol.source.Vector({
+    features: [marker4], // Use marker2 as the feature
+});
+
+const vectorLayer4 = new ol.layer.Vector({
+    source: vectorSource4, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer4);
+
+// 86112
+const marker4a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86364, 59.62976])), // Adjust the longitude value
+});
+
+const markerStyle4a = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './86112.png',
+        scale: 0.1,
+    }),
+});
+ 
+marker4a.setStyle(markerStyle4a);
+
+const vectorSource4a = new ol.source.Vector({
+    features: [marker4a], // Use marker2 as the feature
+});
+
+const vectorLayer4a = new ol.layer.Vector({
+    source: vectorSource4a, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer4a);
+
+// 86113
+const marker4b = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.86364, 59.62947])), // Adjust the longitude value
+});
+
+const markerStyle4b = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './86113.png',
+        scale: 0.1,
+    }),
+});
+ 
+marker4b.setStyle(markerStyle4b);
+
+const vectorSource4b = new ol.source.Vector({
+    features: [marker4b], // Use marker2 as the feature
+});
+
+const vectorLayer4b = new ol.layer.Vector({
+    source: vectorSource4b, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer4b);
+
+</script>
 
 <table width="440" border="0">
     <tr>
@@ -397,11 +621,29 @@ popupContainer.style.top = pixel[1] + 'px';
 
     
 </script>
-  
-  <a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+
+</div>
+<a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
 <div class="custom-attribution">
   Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
   och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
 </div>
+
+<script defer>
+    window.addEventListener('DOMContentLoaded', function () {
+        var map = new ol.Map({
+    target: 'osm-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
+    view: new ol.View({
+                    center: ol.proj.fromLonLat([17.9261, 59.4552]), 
+                    zoom: 15 // You can adjust the zoom level as needed
+    })})
+    });
+  </script>
+
 </body>
 </html>
