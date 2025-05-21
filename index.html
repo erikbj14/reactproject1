@@ -5,65 +5,64 @@
   <title>OpenStreetMap med Tooltips</title>
   <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- OpenLayers CSS och JS -->
-  <!--<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />-->
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
-  <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
-    /*openstreetmap contributors*/
-.ol-control.ol-attribution
-{
-  position: absolute;
-  left: 0px;
-  bottom: 80px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-  left: 0px !important;
-    bottom: 80px !important;
-}
-
-/* Extra rad under attribution */
-.custom-attribution {
-  position: absolute;
-  left: 0px;
-  bottom: 35px;
-  background-color: white;
-  padding: 5px 10px;
-  /*border: 1px solid black;*/
-  font-size: 11px;
-  text-align: left;
-}
-
-.ol-map {
-    position: relative !important;
-}  
-    /* Stil för info-länken (ℹ️) */
-    .info-attribution {
-      position: absolute; 
-      top: 14px; 
-      left: 320px;
-      z-index: 4000;
-      text-decoration: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: blue;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
-  
-    /* Karta */
+
+    /* Rubriker högst upp */
+    .header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 5000;
+      padding: 10px;
+      background-color: rgba(255,255,255,0.9);
+      border-radius: 8px;
+    }
+    .header h1 {
+      margin: 0;
+      color: #003366; /* Marinblå */
+      font-size: 28px;
+    }
+    .header p {
+      margin: 0;
+      font-size: 18px;
+      color: #000;
+    }
+
+    /* Karta och layout */
     #osm-map {
       position: fixed;
-      height: 740px;
+      height: 700px; /* lite mindre höjd för plats åt rubrik */
       width: 440px;
-      top: 0;
+      top: 80px; /* flytta ned lite för rubriken */
       left: 0;
     }
-  
-    /* Tooltip */
+
+    .ol-control.ol-attribution {
+      position: absolute;
+      left: 0px !important;
+      bottom: 80px !important;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .custom-attribution {
+      position: absolute;
+      left: 0px;
+      bottom: 35px;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+    }
+
     .tooltip {
       background-color: white;
       border: 1px solid black;
@@ -74,18 +73,17 @@
       display: none;
       pointer-events: none;
     }
-  
-    /* Dropdown-stilar */
+
+    /* Menyknappar högre upp */
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 550px;
+      top: 500px; /* flyttat upp från 550px */
       display: inline-block;
       z-index: 4000;
     }
-  
     .dropdown { left: 155px; }
     .dropdown2 { left: 10px; }
-  
+
     .dropbtn {
       background-color: #3498DB;
       color: white;
@@ -94,11 +92,10 @@
       border: none;
       cursor: pointer;
     }
-  
     .dropbtn:hover, .dropbtn:focus {
       background-color: #2980B9;
     }
-  
+
     .dropdown-content, .dropdown2-content {
       display: none;
       position: absolute;
@@ -110,65 +107,94 @@
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
     }
-  
+
     .dropdown-content a, .dropdown2-content a {
       color: black;
       padding: 12px 16px;
       text-decoration: none;
       display: block;
     }
-  
+
     .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
     }
-  
-    .dropdown:hover .dropdown-content,
-    .dropdown2:hover .dropdown2-content {
-      display: block;
-    }
-  
-    p { font-size: 35px; }
   </style>
-  
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HQC5YGKM2N');
-</script>
 <body>
+  <!-- Rubrik -->
+  <div class="header">
+    <h1>Pendelparkering</h1>
+    <p>med tågtider</p>
+  </div>
+
   <!-- Karta -->
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
-    Kartdata från OpenStreetMap och dess bidragsgivare, under ODbL-licens
+    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
-  
 
-  <!-- Tooltip-element -->
+  <!-- Tooltip -->
   <div id="tooltip" class="tooltip"></div>
 
+  <!-- Dropdown-menyer -->
+  <div class="dropdown">
+    <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
+    <div class="dropdown-content">
+      <a href="arlanda.html">Arlanda</a>
+      <a href="marsta.html">Märsta</a>
+      <a href="rosersberg.html">Rosersberg</a>
+      <a href="upplands_vasby.html">Upplands Väsby</a>
+      <a href="rotebro.html">Rotebro</a>
+      <a href="norrviken.html">Norrviken</a>
+      <a href="haggvik.html">Häggvik</a>
+      <a href="sollentuna.html">Sollentuna</a>
+      <a href="helenelund.html">Helenelund</a>
+      <a href="ulriksdal.html">Ulriksdal</a>
+      <a href="solna.html">Solna</a>
+    </div>
+  </div>
+
+  <div class="dropdown2">
+    <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
+    <div class="dropdown2-content">
+      <a href="balsta.html">Bålsta</a>
+      <a href="bro.html">Bro</a>
+      <a href="kungsangen.html">Kungsängen</a>
+      <a href="kallhall.html">Kallhäll</a>
+      <a href="jakobsberg.html">Jakobsberg</a>
+      <a href="barkarby.html">Barkarby</a>
+      <a href="spanga.html">Spånga</a>
+      <a href="sundbyberg.html">Sundbyberg</a>
+      <a href="stockholm_odenplan.html">Odenplan</a>
+      <a href="stockholm_city.html">Stockholm City</a>
+    </div>
+  </div>
+
+  <a href="om.html" style="position: absolute; top: 10px; left: 320px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HQC5YGKM2N');
+  </script>
+
+  <!-- OpenLayers JS -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Skapa kartan
       var map = new ol.Map({
         target: 'osm-map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
+        layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
         view: new ol.View({
           center: ol.proj.fromLonLat([17.8500, 59.5067]),
           zoom: 9.7
         })
       });
 
-      // Skapa markörerna med stationsegenskaper
       const markersData = [
         { coords: [17.93242, 59.44424], station: 'haggvik' },
         { coords: [17.91465, 59.47586], station: 'rotebro' },
@@ -193,7 +219,7 @@
         { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
       ];
 
-      let features = markersData.map(function(item) {
+      let features = markersData.map(item => {
         let feature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
         });
@@ -201,7 +227,6 @@
         return feature;
       });
 
-      // Skapa en gemensam stil för alla markörer
       const iconStyle = new ol.style.Style({
         image: new ol.style.Icon({
           anchor: [0.5, 1],
@@ -209,14 +234,13 @@
           scale: 0.3
         })
       });
+
       features.forEach(feature => feature.setStyle(iconStyle));
 
-      // Lägg markörerna i en vector source
       const vectorSource = new ol.source.Vector({ features: features });
       const vectorLayer = new ol.layer.Vector({ source: vectorSource });
       map.addLayer(vectorLayer);
 
-      // Klickhändelse: vid klick, om stationsegenskapen finns, omdirigera
       map.on('singleclick', function(evt) {
         map.forEachFeatureAtPixel(evt.pixel, function(feature) {
           const station = feature.get('station');
@@ -226,7 +250,6 @@
         });
       });
 
-      // Tooltip-overlay: Skapa ett overlay med tooltip-elementet
       var tooltipEl = document.getElementById('tooltip');
       var tooltipOverlay = new ol.Overlay({
         element: tooltipEl,
@@ -235,9 +258,7 @@
       });
       map.addOverlay(tooltipOverlay);
 
-      // Visa tooltip vid hover
       map.on('pointermove', function(evt) {
-        // Försök hitta en feature under muspekaren
         var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
           return feature;
         });
@@ -250,50 +271,6 @@
         }
       });
     });
-
-    /*openstreetmap contributors*/
-    document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector('.ol-control.ol-attribution').style.left = '50px';
-  });
   </script>
-
-  <!-- Dropdown-menyer -->
-  <div class="dropdown">
-    <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-    <div id="dropdown1" class="dropdown-content">
-      <a href="arlanda.html">Arlanda</a>
-      <a href="marsta.html">Märsta</a>
-      <a href="rosersberg.html">Rosersberg</a>
-      <a href="upplands_vasby.html">Upplands Väsby</a>
-      <a href="rotebro.html">Rotebro</a>
-      <a href="norrviken.html">Norrviken</a>
-      <a href="haggvik.html">Häggvik</a>
-      <a href="sollentuna.html">Sollentuna</a>
-      <a href="helenelund.html">Helenelund</a>
-      <a href="ulriksdal.html">Ulriksdal</a>
-      <a href="solna.html">Solna</a>
-    </div>
-  </div>
-  <div class="dropdown2">
-    <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div id="dropdown2" class="dropdown2-content"> 
-      <a href="balsta.html">Bålsta</a>
-      <a href="bro.html">Bro</a>
-      <a href="kungsangen.html">Kungsängen</a>
-      <a href="kallhall.html">Kallhäll</a>
-      <a href="jakobsberg.html">Jakobsberg</a>
-      <a href="barkarby.html">Barkarby</a>
-      <a href="spanga.html">Spånga</a>   
-      <a href="sundbyberg.html">Sundbyberg</a>
-      <a href="stockholm_odenplan.html">Odenplan</a>
-      <a href="stockholm_city.html">Stockholm City</a>
-    </div>
-  </div>
-  
-  <a href="om.html" style="position: absolute; top: 10px; left: 320px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
-  <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
-  </div>
 </body>
 </html>
