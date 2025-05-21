@@ -1,68 +1,55 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>OpenStreetMap med Tooltips</title>
-  <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- OpenLayers CSS och JS -->
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
     }
 
-    /* Rubriker högst upp */
+    /* Huvudrubrik med transparent bakgrund */
     .header {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 10px 20px;
+      border-radius: 10px;
       z-index: 5000;
-      padding: 10px;
-      background-color: rgba(255,255,255,0.9);
-      border-radius: 8px;
-    }
-    .header h1 {
-      margin: 0;
-      color: #003366; /* Marinblå */
-      font-size: 28px;
-    }
-    .header p {
-      margin: 0;
-      font-size: 18px;
-      color: #000;
     }
 
-    /* Karta och layout */
+    .header h1 {
+      color: #003366;
+      font-size: 36px;
+      margin: 0;
+    }
+
+    .header p {
+      color: #000;
+      font-size: 18px;
+      margin: 5px 0 0;
+    }
+
+    /* Karta justerad högre upp */
     #osm-map {
       position: fixed;
-      height: 700px; /* lite mindre höjd för plats åt rubrik */
-      width: 440px;
-      top: 80px; /* flytta ned lite för rubriken */
+      top: -20px;
       left: 0;
+      height: 740px;
+      width: 440px;
     }
 
-    .ol-control.ol-attribution {
-      position: absolute;
-      left: 0px !important;
-      bottom: 80px !important;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-    }
-
-    .custom-attribution {
-      position: absolute;
-      left: 0px;
-      bottom: 35px;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-    }
-
+    /* Tooltip */
     .tooltip {
       background-color: white;
       border: 1px solid black;
@@ -74,13 +61,14 @@
       pointer-events: none;
     }
 
-    /* Menyknappar högre upp */
+    /* Dropdown-menyer */
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 500px; /* flyttat upp från 550px */
+      top: 520px;
       display: inline-block;
       z-index: 4000;
     }
+
     .dropdown { left: 155px; }
     .dropdown2 { left: 10px; }
 
@@ -92,6 +80,7 @@
       border: none;
       cursor: pointer;
     }
+
     .dropbtn:hover, .dropbtn:focus {
       background-color: #2980B9;
     }
@@ -118,8 +107,44 @@
     .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
     }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown2:hover .dropdown2-content {
+      display: block;
+    }
+
+    .custom-attribution {
+      position: absolute;
+      left: 0px;
+      bottom: 35px;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .ol-control.ol-attribution {
+      position: absolute;
+      left: 50px !important;
+      bottom: 80px !important;
+      background-color: white;
+      padding: 5px 10px;
+      font-size: 11px;
+    }
+
+    .info-attribution {
+      position: absolute;
+      top: 14px;
+      left: 320px;
+      z-index: 4000;
+      font-size: 24px;
+      color: blue;
+      background: none;
+      border: none;
+    }
   </style>
 </head>
+
 <body>
   <!-- Rubrik -->
   <div class="header">
@@ -130,12 +155,7 @@
   <!-- Karta -->
   <div id="osm-map"></div>
 
-  <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
-  </div>
-
-  <!-- Tooltip -->
+  <!-- Tooltip-element -->
   <div id="tooltip" class="tooltip"></div>
 
   <!-- Dropdown-menyer -->
@@ -172,23 +192,23 @@
     </div>
   </div>
 
-  <a href="om.html" style="position: absolute; top: 10px; left: 320px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+  <!-- Infoknapp -->
+  <a href="om.html" class="info-attribution">ℹ️</a>
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-HQC5YGKM2N');
-  </script>
+  <!-- Attribution -->
+  <div class="custom-attribution">
+    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+  </div>
 
-  <!-- OpenLayers JS -->
+  <!-- Kartscript -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       var map = new ol.Map({
         target: 'osm-map',
-        layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
+        layers: [
+          new ol.layer.Tile({ source: new ol.source.OSM() })
+        ],
         view: new ol.View({
           center: ol.proj.fromLonLat([17.8500, 59.5067]),
           zoom: 9.7
@@ -219,14 +239,6 @@
         { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
       ];
 
-      let features = markersData.map(item => {
-        let feature = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
-        });
-        feature.set('station', item.station);
-        return feature;
-      });
-
       const iconStyle = new ol.style.Style({
         image: new ol.style.Icon({
           anchor: [0.5, 1],
@@ -235,9 +247,16 @@
         })
       });
 
-      features.forEach(feature => feature.setStyle(iconStyle));
+      const features = markersData.map(item => {
+        const feature = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
+        });
+        feature.set('station', item.station);
+        feature.setStyle(iconStyle);
+        return feature;
+      });
 
-      const vectorSource = new ol.source.Vector({ features: features });
+      const vectorSource = new ol.source.Vector({ features });
       const vectorLayer = new ol.layer.Vector({ source: vectorSource });
       map.addLayer(vectorLayer);
 
@@ -250,8 +269,8 @@
         });
       });
 
-      var tooltipEl = document.getElementById('tooltip');
-      var tooltipOverlay = new ol.Overlay({
+      const tooltipEl = document.getElementById('tooltip');
+      const tooltipOverlay = new ol.Overlay({
         element: tooltipEl,
         offset: [10, 0],
         positioning: 'center-left'
@@ -259,9 +278,7 @@
       map.addOverlay(tooltipOverlay);
 
       map.on('pointermove', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-          return feature;
-        });
+        const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
         if (feature && feature.get('station')) {
           tooltipEl.innerHTML = feature.get('station');
           tooltipOverlay.setPosition(evt.coordinate);
