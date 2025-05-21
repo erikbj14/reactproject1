@@ -17,16 +17,26 @@
 
     /* Huvudrubrik med transparent bakgrund */
     .header {
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      background-color: rgba(255, 255, 255, 0.6);
-      padding: 10px 20px;
-      border-radius: 10px;
-      z-index: 5000;
-    }
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 5000;
+  width: 90%;
+  max-width: 400px;
+}
+
+@media (min-width: 600px) {
+  .header {
+    left: 220px; /* halva kartans bredd (440px / 2) */
+    transform: translateX(-50%);
+  }
+}
+
 
     .header h1 {
       color: #003366;
@@ -114,23 +124,24 @@
     }
 
     .custom-attribution {
-      position: absolute;
-      left: 0px;
-      bottom: 35px;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: left;
-    }
+  position: absolute;
+  left: 0px;
+  bottom: 35px;
+  background-color: white;
+  padding: 5px 10px;
+  font-size: 11px;
+  text-align: left;
+}
 
-    .ol-control.ol-attribution {
-      position: absolute;
-      left: 50px !important;
-      bottom: 80px !important;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-    }
+.ol-control.ol-attribution {
+  position: absolute;
+  left: 0px !important;
+  bottom: 80px !important;
+  background-color: white;
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
 
     .info-attribution {
       position: absolute;
