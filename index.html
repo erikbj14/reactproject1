@@ -164,6 +164,32 @@
   gtag('js', new Date());
   gtag('config', 'G-HQC5YGKM2N');
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown").forEach(function(drop) {
+      drop.querySelector(".dropbtn").addEventListener("click", function () {
+        const content = drop.querySelector(".dropdown-content");
+        content.style.display = (content.style.display === "block") ? "none" : "block";
+      });
+    });
+
+    document.querySelectorAll(".dropdown2").forEach(function(drop) {
+      drop.querySelector(".dropbtn").addEventListener("click", function () {
+        const content = drop.querySelector(".dropdown2-content");
+        content.style.display = (content.style.display === "block") ? "none" : "block";
+      });
+    });
+
+    // Stäng dropdown när man klickar utanför
+    window.addEventListener("click", function(e) {
+      document.querySelectorAll(".dropdown-content, .dropdown2-content").forEach(function(menu) {
+        if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
+          menu.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
 
 <body>
   <div class="header">
