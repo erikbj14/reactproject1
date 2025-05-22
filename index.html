@@ -38,7 +38,7 @@
     .info-attribution {
       position: absolute;
       top: 20px;
-      right: 20px; /* Justerat inåt */
+      right: 20px;
       z-index: 4000;
       text-decoration: none;
       background: none;
@@ -49,329 +49,28 @@
 
     .custom-attribution {
       position: absolute;
-      left: 0px;
-      bottom: 10px;
-      background-color: white;
-      padding: 2px 8px; /* Mindre padding */
-      font-size: 11px;
-      text-align: left; /* Vänsterställt */
-      z-index: 4000;
-      box-sizing: border-box;
-    }
-
-    .dropdown, .dropdown2 {
-      position: absolute;
-      top: 505px;
-      display: inline-block;
-      z-index: 4000;
-    }
-
-    .dropdown { left: 155px; }
-    .dropdown2 { left: 10px; }
-
-    .dropbtn {
-      background-color: #3498DB;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .dropbtn:hover, .dropbtn:focus {
-      background-color: #2980B9;
-    }
-
-    .dropdown-content, .dropdown2-content {
-      display: none;
-      position: absolute;
-      bottom: 100%;
-      top: auto;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      overflow: auto;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a, .dropdown2-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover, .dropdown2-content a:hover {
-      background-color: #ddd;
-    }
-
-    .header {
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      background-color: rgba(255, 255, 255, 0.6);
-      padding: 8px 15px;
-      border-radius: 10px;
-      z-index: 5000;
-      width: auto;
-      max-width: 400px;
-      white-space: nowrap;
-      cursor: default;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 32px;
-      color: #001F4D;
-      line-height: 1;
-    }
-
-    .header p {
-      margin: 0;
-      font-size: 18px;
-      color: black;
-      line-height: 1;
-    }
-
-    @media (min-width: 600px) {
-      .header {
-        left: 220px;
-        transform: translateX(-50%);
-      }
-    }
-  </style>
-</head>
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-HQC5YGKM2N');
-</script>
-
-<body>
-  <div class="header">
-    <h1>Pendelparkering</h1>
-    <p>med tågtider</p>
-  </div>
-
-  <!-- ℹ️-knapp -->
-  <a href="om.html" class="info-attribution" title="Om sidan">ℹ️</a>
-
-  <div id="osm-map"></div>
-
-  <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a><br>
-    och dess bidragsgivare, under 
-    <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
-  </div>
-
-  <div id="tooltip" class="tooltip"></div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var map = new ol.Map({
-        target: 'osm-map',
-        layers: [
-          new ol.layer.Tile({ source: new ol.source.OSM() })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([17.8500, 59.5077]),
-          zoom: 9.7
-        })
-      });
-
-      const markersData = [
-        { coords: [17.93242, 59.44424], station: 'haggvik' },
-        { coords: [17.91465, 59.47586], station: 'rotebro' },
-        { coords: [17.899,   59.5208],  station: 'upplands_vasby' },
-        { coords: [17.8801,  59.5836],  station: 'rosersberg' },
-        { coords: [17.86122, 59.62734], station: 'marsta' },
-        { coords: [18.0096,  59.3664],  station: 'solna' },
-        { coords: [18.00038, 59.38073], station: 'ulriksdal' },
-        { coords: [17.9624,  59.409],   station: 'helenelund' },
-        { coords: [17.9482,  59.4287],  station: 'sollentuna' },
-        { coords: [17.9243,  59.459],   station: 'norrviken' },
-        { coords: [17.9364,  59.6461],  station: 'arlanda' },
-        { coords: [17.97187, 59.36073], station: 'sundbyberg' },
-        { coords: [17.8982,  59.3836],  station: 'spanga' },
-        { coords: [17.86436, 59.40515], station: 'barkarby' },
-        { coords: [17.833,   59.4237],  station: 'jakobsberg' },
-        { coords: [17.8073,  59.4522],  station: 'kallhall' },
-        { coords: [17.7522,  59.4776],  station: 'kungsangen' },
-        { coords: [17.63285, 59.51224], station: 'bro' },
-        { coords: [17.53369, 59.56834], station: 'balsta' },
-        { coords: [18.0553,  59.3316],  station: 'stockholm_city' },
-        { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
-      ];
-
-      let features = markersData.map(function(item) {
-        let feature = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
-        });
-        feature.set('station', item.station);
-        return feature;
-      });
-
-      const iconStyle = new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 1],
-          src: 'https://www.openrailwaymap.org/js/images/marker-icon-2x.png',
-          scale: 0.3
-        })
-      });
-
-      features.forEach(feature => feature.setStyle(iconStyle));
-
-      const vectorSource = new ol.source.Vector({ features: features });
-      const vectorLayer = new ol.layer.Vector({ source: vectorSource });
-      map.addLayer(vectorLayer);
-
-      map.on('singleclick', function(evt) {
-        map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-          const station = feature.get('station');
-          if (station) {
-            window.location.href = station + ".html";
-          }
-        });
-      });
-
-      var tooltipEl = document.getElementById('tooltip');
-      var tooltipOverlay = new ol.Overlay({
-        element: tooltipEl,
-        offset: [10, 0],
-        positioning: 'center-left'
-      });
-      map.addOverlay(tooltipOverlay);
-
-      map.on('pointermove', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-          return feature;
-        });
-        if (feature && feature.get('station')) {
-          tooltipEl.innerHTML = feature.get('station');
-          tooltipOverlay.setPosition(evt.coordinate);
-          tooltipEl.style.display = 'block';
-        } else {
-          tooltipEl.style.display = 'none';
-        }
-      });
-    });
-  </script>
-
-  <!-- Dropdown-menyer -->
-  <div class="dropdown">
-    <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-    <div class="dropdown-content">
-      <a href="arlanda.html">Arlanda</a>
-      <a href="marsta.html">Märsta</a>
-      <a href="rosersberg.html">Rosersberg</a>
-      <a href="upplands_vasby.html">Upplands Väsby</a>
-      <a href="rotebro.html">Rotebro</a>
-      <a href="norrviken.html">Norrviken</a>
-      <a href="haggvik.html">Häggvik</a>
-      <a href="sollentuna.html">Sollentuna</a>
-      <a href="helenelund.html">Helenelund</a>
-      <a href="ulriksdal.html">Ulriksdal</a>
-      <a href="solna.html">Solna</a>
-    </div>
-  </div>
-
-  <div class="dropdown2">
-    <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div class="dropdown2-content">
-      <a href="balsta.html">Bålsta</a>
-      <a href="bro.html">Bro</a>
-      <a href="kungsangen.html">Kungsängen</a>
-      <a href="kallhall.html">Kallhäll</a>
-      <a href="jakobsberg.html">Jakobsberg</a>
-      <a href="barkarby.html">Barkarby</a>
-      <a href="spanga.html">Spånga</a>
-      <a href="sundbyberg.html">Sundbyberg</a>
-      <a href="stockholm_odenplan.html">Odenplan</a>
-      <a href="stockholm_city.html">Stockholm City</a>
-    </div>
-  </div>
-</body>
-</ht<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>OpenStreetMap med Tooltips</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
-  <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
-
-    #osm-map {
-      position: fixed;
-      height: 740px;
-      width: 440px;
-      top: 0;
-      left: 0;
-    }
-
-    .tooltip {
-      background-color: white;
-      border: 1px solid black;
-      padding: 4px;
-      position: absolute;
-      white-space: nowrap;
-      font-size: 12px;
-      display: none;
-      pointer-events: none;
-    }
-
-    .info-attribution {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 4000;
-      text-decoration: none;
-      background: white;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      color: blue;
-      box-shadow: 0 0 4px rgba(0,0,0,0.2);
-    }
-
-    .custom-attribution {
-      position: absolute;
-      bottom: 30px;
+      bottom: 48px;
       left: 0;
       width: 100%;
       background-color: white;
-      padding: 4px 10px;
       font-size: 11px;
+      padding: 4px 12px;
+      box-sizing: border-box;
+      z-index: 4000;
       text-align: left;
-      z-index: 4000;
-      box-sizing: border-box;
     }
 
-    .footer-right {
+    .custom-attribution-right {
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: 20px;
+      right: 0;
       width: 100%;
       background-color: white;
-      padding: 4px 10px;
       font-size: 11px;
-      text-align: right;
-      z-index: 4000;
+      padding: 4px 12px;
       box-sizing: border-box;
+      z-index: 4000;
+      text-align: right;
     }
 
     .dropdown, .dropdown2 {
@@ -485,8 +184,8 @@
     <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
 
-  <div class="footer-right">
-    © Erik Björk 2025
+  <div class="custom-attribution-right">
+    © OpenStreetMap &amp; medverkande
   </div>
 
   <div id="tooltip" class="tooltip"></div>
@@ -617,4 +316,3 @@
   </div>
 </body>
 </html>
-ml>
