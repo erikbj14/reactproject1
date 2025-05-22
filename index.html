@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>OpenStreetMap med Tooltips</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
+  <meta charset="UTF-8" />
+  <title>Pendelparkering med Tooltips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css" />
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
     body {
@@ -49,7 +49,7 @@
 
     .custom-attribution {
       position: absolute;
-      bottom: 60px;
+      bottom: 48px;
       left: 0;
       width: 100%;
       background-color: white;
@@ -62,7 +62,7 @@
 
     .custom-attribution-right {
       position: absolute;
-      bottom: 36px;
+      bottom: 24px;
       right: 0;
       width: 100%;
       background-color: white;
@@ -159,24 +159,17 @@
 </head>
 
 <body>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-HQC5YGKM2N');
-  </script>
-
   <div class="header">
     <h1>Pendelparkering</h1>
     <p>med tågtider</p>
   </div>
 
+  <!-- ℹ️-knapp -->
   <a href="om.html" class="info-attribution" title="Om sidan">ℹ️</a>
 
   <div id="osm-map"></div>
 
+  <!-- Attribution: OpenStreetMap -->
   <div class="custom-attribution">
     Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a><br>
     och dess bidragsgivare, under 
@@ -280,6 +273,7 @@
     });
   </script>
 
+  <!-- Dropdown-menyer -->
   <div class="dropdown">
     <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
     <div class="dropdown-content">
