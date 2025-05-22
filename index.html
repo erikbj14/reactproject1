@@ -1,51 +1,19 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>OpenStreetMap med Tooltips</title>
-  <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
-    .ol-control.ol-attribution {
-      position: absolute;
-      left: 0px !important;
-      bottom: 80px !important;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: right;
-      width: 440px;
-      box-sizing: border-box;
-    }
-
-    .custom-attribution {
-      position: absolute;
-      left: 0px;
-      bottom: 35px;
-      background-color: white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: right;
-      width: 440px;
-      box-sizing: border-box;
+    body {
+      margin: 0;
+      font-family: sans-serif;
     }
 
     .ol-map {
-      position: relative !important;
-    }
-
-    .info-attribution {
-      position: absolute; 
-      top: 24px;
-      left: 5px;
-      z-index: 4000;
-      text-decoration: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: blue;
+      position: relative;
     }
 
     #osm-map {
@@ -65,6 +33,30 @@
       font-size: 12px;
       display: none;
       pointer-events: none;
+    }
+
+    .info-attribution {
+      position: absolute;
+      top: 20px;
+      right: 8px;
+      z-index: 4000;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: blue;
+    }
+
+    .custom-attribution {
+      position: absolute;
+      left: 0px;
+      bottom: 10px;
+      background-color: white;
+      padding: 4px 8px;
+      font-size: 11px;
+      text-align: left;
+      z-index: 4000;
+      box-sizing: border-box;
     }
 
     .dropdown, .dropdown2 {
@@ -112,8 +104,6 @@
     .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
     }
-
-    p { font-size: 35px; }
 
     .header {
       position: absolute;
@@ -176,7 +166,8 @@
 
   <div class="custom-attribution">
     Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    och dess bidragsgivare, under 
+    <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
 
   <div id="tooltip" class="tooltip"></div>
@@ -189,7 +180,7 @@
           new ol.layer.Tile({ source: new ol.source.OSM() })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([17.8500, 59.5077]), // justerad y-position
+          center: ol.proj.fromLonLat([17.8500, 59.5077]),
           zoom: 9.7
         })
       });
@@ -269,8 +260,6 @@
           tooltipEl.style.display = 'none';
         }
       });
-
-      document.querySelector('.ol-control.ol-attribution').style.left = '0px';
     });
   </script>
 
@@ -307,10 +296,5 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-
-  <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer" class="custom-attribution" style="bottom: 12px;">
-    © OpenStreetMap contributors
-  </a>
-
 </body>
 </html>
