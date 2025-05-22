@@ -5,10 +5,8 @@
   <title>OpenStreetMap med Tooltips</title>
   <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
-
   <style>
     .ol-control.ol-attribution {
       position: absolute;
@@ -51,12 +49,12 @@
     }
 
     #osm-map {
-  position: fixed;
-  height: 740px;
-  width: 440px;
-  top: -10px;  /* Justerat från -5px */
-  left: 0;
-}
+      position: fixed;
+      height: 740px;
+      width: 440px;
+      top: 0;
+      left: 0;
+    }
 
     .tooltip {
       background-color: white;
@@ -71,17 +69,13 @@
 
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 550px;
+      top: 515px; /* Flyttat upp */
       display: inline-block;
       z-index: 4000;
     }
 
-    .dropdown, .dropdown2 {
-  position: absolute;
-  top: 530px;  /* Justerat från 550px */
-  display: inline-block;
-  z-index: 4000;
-}
+    .dropdown { left: 155px; }
+    .dropdown2 { left: 10px; }
 
     .dropbtn {
       background-color: #3498DB;
@@ -117,11 +111,6 @@
 
     .dropdown-content a:hover, .dropdown2-content a:hover {
       background-color: #ddd;
-    }
-
-    .dropdown:hover .dropdown-content,
-    .dropdown2:hover .dropdown2-content {
-      display: block;
     }
 
     p { font-size: 35px; }
@@ -194,10 +183,12 @@
       var map = new ol.Map({
         target: 'osm-map',
         layers: [
-          new ol.layer.Tile({ source: new ol.source.OSM() })
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([17.8500, 59.5067]),
+          center: ol.proj.fromLonLat([17.8500, 59.495]), // Justerad koordinat
           zoom: 9.7
         })
       });
@@ -226,7 +217,7 @@
         { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
       ];
 
-      let features = markersData.map(item => {
+      let features = markersData.map(function(item) {
         let feature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
         });
@@ -241,7 +232,7 @@
           scale: 0.3
         })
       });
-      features.forEach(f => f.setStyle(iconStyle));
+      features.forEach(feature => feature.setStyle(iconStyle));
 
       const vectorSource = new ol.source.Vector({ features: features });
       const vectorLayer = new ol.layer.Vector({ source: vectorSource });
@@ -265,8 +256,8 @@
       map.addOverlay(tooltipOverlay);
 
       map.on('pointermove', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel, function(f) {
-          return f;
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+          return feature;
         });
         if (feature && feature.get('station')) {
           tooltipEl.innerHTML = feature.get('station');
@@ -283,9 +274,10 @@
     });
   </script>
 
+  <!-- Dropdown-menyer -->
   <div class="dropdown">
     <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-    <div class="dropdown-content">
+    <div id="dropdown1" class="dropdown-content">
       <a href="arlanda.html">Arlanda</a>
       <a href="marsta.html">Märsta</a>
       <a href="rosersberg.html">Rosersberg</a>
@@ -299,10 +291,9 @@
       <a href="solna.html">Solna</a>
     </div>
   </div>
-
   <div class="dropdown2">
     <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div class="dropdown2-content"> 
+    <div id="dropdown2" class="dropdown2-content"> 
       <a href="balsta.html">Bålsta</a>
       <a href="bro.html">Bro</a>
       <a href="kungsangen.html">Kungsängen</a>
@@ -315,9 +306,10 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-
+  
   <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer" class="custom-attribution" style="bottom: 12px;">
     © OpenStreetMap contributors
   </a>
+
 </body>
 </html>
