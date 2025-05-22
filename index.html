@@ -51,12 +51,12 @@
     }
 
     #osm-map {
-      position: fixed;
-      height: 740px;
-      width: 440px;
-      top: -5px;
-      left: 0;
-    }
+  position: fixed;
+  height: 740px;
+  width: 440px;
+  top: -10px;  /* Justerat från -5px */
+  left: 0;
+}
 
     .tooltip {
       background-color: white;
@@ -76,8 +76,12 @@
       z-index: 4000;
     }
 
-    .dropdown { left: 155px; }
-    .dropdown2 { left: 10px; }
+    .dropdown, .dropdown2 {
+  position: absolute;
+  top: 530px;  /* Justerat från 550px */
+  display: inline-block;
+  z-index: 4000;
+}
 
     .dropbtn {
       background-color: #3498DB;
