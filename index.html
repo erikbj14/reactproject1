@@ -47,28 +47,27 @@
       color: blue;
     }
 
-    .custom-attribution {
-      position: absolute;
+    /* Vitt fält som spänner över hela bredden */
+    .custom-attribution, .custom-attribution-bottom {
+      position: fixed;
       left: 0;
-      bottom: 40px; /* dragit ned från 10px till 40px */
+      right: 0;
       background-color: white;
-      padding: 2px 8px;
+      padding: 4px 10px;
       font-size: 11px;
       text-align: left;
       z-index: 4000;
       box-sizing: border-box;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .custom-attribution {
+      bottom: 40px; /* dragit ned */
     }
 
     .custom-attribution-bottom {
-      position: absolute;
-      left: 0;
-      bottom: 20px; /* dragit ned från 10px till 20px */
-      background-color: white;
-      padding: 2px 8px;
-      font-size: 11px;
-      text-align: left;
-      z-index: 4000;
-      box-sizing: border-box;
+      bottom: 20px; /* dragit ned */
     }
 
     .dropdown, .dropdown2 {
@@ -177,11 +176,10 @@
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
-    © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>
   </div>
   <div class="custom-attribution-bottom">
-    och dess bidragsgivare, under 
-    <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener noreferrer">ODbL-licens</a>.
   </div>
 
   <div id="tooltip" class="tooltip"></div>
