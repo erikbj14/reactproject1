@@ -15,7 +15,7 @@
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: left;
+      text-align: right;
       width: 440px;
       box-sizing: border-box;
     }
@@ -27,7 +27,7 @@
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: left;
+      text-align: right;
       width: 440px;
       box-sizing: border-box;
     }
@@ -38,8 +38,8 @@
 
     .info-attribution {
       position: absolute; 
-      top: 14px; 
-      left: 320px;
+      top: 24px;
+      left: 5px;
       z-index: 4000;
       text-decoration: none;
       background: none;
@@ -69,7 +69,7 @@
 
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 515px; /* Flyttat upp */
+      top: 505px;
       display: inline-block;
       z-index: 4000;
     }
@@ -154,7 +154,7 @@
   </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -168,6 +168,9 @@
     <h1>Pendelparkering</h1>
     <p>med tågtider</p>
   </div>
+
+  <!-- ℹ️-knapp -->
+  <a href="om.html" class="info-attribution" title="Om sidan">ℹ️</a>
 
   <div id="osm-map"></div>
 
@@ -183,12 +186,10 @@
       var map = new ol.Map({
         target: 'osm-map',
         layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
+          new ol.layer.Tile({ source: new ol.source.OSM() })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([17.8500, 59.495]), // Justerad koordinat
+          center: ol.proj.fromLonLat([17.8500, 59.5077]), // justerad y-position
           zoom: 9.7
         })
       });
@@ -232,6 +233,7 @@
           scale: 0.3
         })
       });
+
       features.forEach(feature => feature.setStyle(iconStyle));
 
       const vectorSource = new ol.source.Vector({ features: features });
@@ -267,9 +269,7 @@
           tooltipEl.style.display = 'none';
         }
       });
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
       document.querySelector('.ol-control.ol-attribution').style.left = '0px';
     });
   </script>
@@ -277,7 +277,7 @@
   <!-- Dropdown-menyer -->
   <div class="dropdown">
     <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-    <div id="dropdown1" class="dropdown-content">
+    <div class="dropdown-content">
       <a href="arlanda.html">Arlanda</a>
       <a href="marsta.html">Märsta</a>
       <a href="rosersberg.html">Rosersberg</a>
@@ -291,22 +291,23 @@
       <a href="solna.html">Solna</a>
     </div>
   </div>
+
   <div class="dropdown2">
     <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div id="dropdown2" class="dropdown2-content"> 
+    <div class="dropdown2-content">
       <a href="balsta.html">Bålsta</a>
       <a href="bro.html">Bro</a>
       <a href="kungsangen.html">Kungsängen</a>
       <a href="kallhall.html">Kallhäll</a>
       <a href="jakobsberg.html">Jakobsberg</a>
       <a href="barkarby.html">Barkarby</a>
-      <a href="spanga.html">Spånga</a>   
+      <a href="spanga.html">Spånga</a>
       <a href="sundbyberg.html">Sundbyberg</a>
       <a href="stockholm_odenplan.html">Odenplan</a>
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  
+
   <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer" class="custom-attribution" style="bottom: 12px;">
     © OpenStreetMap contributors
   </a>
