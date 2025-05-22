@@ -106,6 +106,14 @@
       z-index: 6000; /* Högre än headerns 5000 */
     }
 
+    .dropdown {
+  position: relative; /* Viktigt för att z-index ska fungera på dropdown-content */
+  z-index: 6000;       /* Se till att hela dropdown ligger ovanför headern */
+}
+
+.dropdown-content {
+  z-index: 6001;       /* Ska ligga över headern som har z-index: 5000 */
+}
     .dropdown-content a, .dropdown2-content a {
       color: black;
       padding: 12px 16px;
