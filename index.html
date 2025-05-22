@@ -1,26 +1,25 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>OpenStreetMap med Tooltips</title>
-  <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- OpenLayers CSS och JS -->
-  <!--<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />-->
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
-  <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
+  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css" />
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
+
   <style>
-    /*openstreetmap contributors*/
+    /* Attribution - vänsterställd */
     .ol-control.ol-attribution {
-      position: absolute;
+      position: absolute !important;
       left: 0px !important;
       bottom: 80px !important;
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: right;
-      width: 440px; /* för att matcha kartbredden */
+      text-align: left;
+      width: 440px;
       box-sizing: border-box;
     }
 
@@ -32,26 +31,22 @@
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: right;
+      text-align: left;
       width: 440px;
       box-sizing: border-box;
     }
 
-    .ol-map {
-      position: relative !important;
-    }  
-
-    /* Stil för info-länken (ℹ️) */
+    /* Stil för info-ikonen (ℹ️) */
     .info-attribution {
-      position: absolute; 
-      top: 14px; 
+      position: absolute;
+      top: 14px;
       left: 320px;
       z-index: 4000;
-      text-decoration: none;
-      background: none;
-      border: none;
       font-size: 24px;
       color: blue;
+      cursor: pointer;
+      background: none;
+      border: none;
     }
 
     /* Karta */
@@ -59,8 +54,9 @@
       position: fixed;
       height: 740px;
       width: 440px;
-      top: 0;
+      top: 40px; /* Höj kartan lite */
       left: 0;
+      z-index: 1;
     }
 
     /* Tooltip */
@@ -73,12 +69,13 @@
       font-size: 12px;
       display: none;
       pointer-events: none;
+      z-index: 4001;
     }
 
     /* Dropdown-stilar */
     .dropdown, .dropdown2 {
       position: absolute;
-      top: 550px;
+      top: 530px; /* Flytta upp knapparna lite */
       display: inline-block;
       z-index: 4000;
     }
@@ -127,29 +124,24 @@
       display: block;
     }
 
-    p { font-size: 35px; }
-
-    /* Header - Pendelparkering med tågtider */
+    /* Header: Pendelparkering med tågtider */
     .header {
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: fixed;
+      top: 5px;
+      left: 0;
+      width: 440px;
+      background-color: rgba(255, 255, 255, 0.4);
       text-align: center;
-      background-color: rgba(255, 255, 255, 0.6);
-      padding: 8px 15px; /* krympt padding */
-      border-radius: 10px;
-      z-index: 5000;
-      width: auto;
-      max-width: 400px;
-      white-space: nowrap; /* förhindrar radbrytning */
-      cursor: default; /* visar att det inte är klickbart */
+      padding: 4px 10px 8px 10px;
+      z-index: 4002;
+      user-select: none;
+      box-sizing: border-box;
     }
 
     .header h1 {
       margin: 0;
-      font-size: 32px;
-      color: #001F4D; /* marinblå */
+      font-size: 30px;
+      color: navy;
       line-height: 1;
     }
 
@@ -160,16 +152,12 @@
       line-height: 1;
     }
 
-    @media (min-width: 600px) {
-      .header {
-        left: 220px; /* halva kartans bredd */
-        transform: translateX(-50%);
-      }
+    p {
+      font-size: 35px;
     }
-
   </style>
-
 </head>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
 <script>
@@ -179,8 +167,12 @@
 
   gtag('config', 'G-HQC5YGKM2N');
 </script>
+
 <body>
-  <!-- Header: Pendelparkering med tågtider -->
+  <!-- Info-ikon -->
+  <button class="info-attribution" title="Mer info" aria-label="Mer info">ℹ️</button>
+
+  <!-- Header -->
   <div class="header">
     <h1>Pendelparkering</h1>
     <p>med tågtider</p>
@@ -190,8 +182,8 @@
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener noreferrer">ODbL-licens</a>.
   </div>
 
   <!-- Tooltip-element -->
@@ -199,6 +191,11 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // Klick på info-ikonen leder till om.html
+      document.querySelector('.info-attribution').addEventListener('click', function () {
+        window.location.href = 'om.html';
+      });
+
       // Skapa kartan
       var map = new ol.Map({
         target: 'osm-map',
@@ -217,25 +214,25 @@
       const markersData = [
         { coords: [17.93242, 59.44424], station: 'haggvik' },
         { coords: [17.91465, 59.47586], station: 'rotebro' },
-        { coords: [17.899,   59.5208],  station: 'upplands_vasby' },
-        { coords: [17.8801,  59.5836],  station: 'rosersberg' },
+        { coords: [17.899, 59.5208], station: 'upplands_vasby' },
+        { coords: [17.8801, 59.5836], station: 'rosersberg' },
         { coords: [17.86122, 59.62734], station: 'marsta' },
-        { coords: [18.0096,  59.3664],  station: 'solna' },
+        { coords: [18.0096, 59.3664], station: 'solna' },
         { coords: [18.00038, 59.38073], station: 'ulriksdal' },
-        { coords: [17.9624,  59.409],   station: 'helenelund' },
-        { coords: [17.9482,  59.4287],  station: 'sollentuna' },
-        { coords: [17.9243,  59.459],   station: 'norrviken' },
-        { coords: [17.9364,  59.6461],  station: 'arlanda' },
+        { coords: [17.9624, 59.409], station: 'helenelund' },
+        { coords: [17.9482, 59.4287], station: 'sollentuna' },
+        { coords: [17.9243, 59.459], station: 'norrviken' },
+        { coords: [17.9364, 59.6461], station: 'arlanda' },
         { coords: [17.97187, 59.36073], station: 'sundbyberg' },
-        { coords: [17.8982,  59.3836],  station: 'spanga' },
+        { coords: [17.8982, 59.3836], station: 'spanga' },
         { coords: [17.86436, 59.40515], station: 'barkarby' },
-        { coords: [17.833,   59.4237],  station: 'jakobsberg' },
-        { coords: [17.8073,  59.4522],  station: 'kallhall' },
-        { coords: [17.7522,  59.4776],  station: 'kungsangen' },
+        { coords: [17.833, 59.4237], station: 'jakobsberg' },
+        { coords: [17.8073, 59.4522], station: 'kallhall' },
+        { coords: [17.7522, 59.4776], station: 'kungsangen' },
         { coords: [17.63285, 59.51224], station: 'bro' },
         { coords: [17.53369, 59.56834], station: 'balsta' },
-        { coords: [18.0553,  59.3316],  station: 'stockholm_city' },
-        { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
+        { coords: [18.0553, 59.3316], station: 'stockholm_city' },
+        { coords: [18.0455, 59.3433], station: 'stockholm_city2' }
       ];
 
       let features = markersData.map(function(item) {
@@ -294,17 +291,15 @@
           tooltipEl.style.display = 'none';
         }
       });
-    });
 
-    /*openstreetmap contributors*/
-    document.addEventListener("DOMContentLoaded", function () {
+      // Flytta attribution vänster inuti kartan
       document.querySelector('.ol-control.ol-attribution').style.left = '0px';
     });
   </script>
 
   <!-- Dropdown-menyer -->
   <div class="dropdown">
-    <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
+    <button class="dropbtn">Märsta 41/42<br /><font size="2">&amp; Arlanda</font></button>
     <div id="dropdown1" class="dropdown-content">
       <a href="arlanda.html">Arlanda</a>
       <a href="marsta.html">Märsta</a>
@@ -320,24 +315,19 @@
     </div>
   </div>
   <div class="dropdown2">
-    <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div id="dropdown2" class="dropdown2-content"> 
+    <button class="dropbtn">Bålsta 43<br /><font size="2">Sthlm C, Odenplan</font></button>
+    <div id="dropdown2" class="dropdown2-content">
       <a href="balsta.html">Bålsta</a>
       <a href="bro.html">Bro</a>
       <a href="kungsangen.html">Kungsängen</a>
       <a href="kallhall.html">Kallhäll</a>
       <a href="jakobsberg.html">Jakobsberg</a>
       <a href="barkarby.html">Barkarby</a>
-      <a href="spanga.html">Spånga</a>   
+      <a href="spanga.html">Spånga</a>
       <a href="sundbyberg.html">Sundbyberg</a>
       <a href="stockholm_odenplan.html">Odenplan</a>
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  
-  <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer" class="custom-attribution" style="bottom: 12px;">
-    © OpenStreetMap contributors
-  </a>
-
 </body>
 </html>
