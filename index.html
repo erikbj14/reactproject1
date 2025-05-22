@@ -5,13 +5,11 @@
   <title>OpenStreetMap med Tooltips</title>
   <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- OpenLayers CSS och JS -->
-  <!--<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />-->
+
   <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
-  <!--<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>-->
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
+
   <style>
-    /*openstreetmap contributors*/
     .ol-control.ol-attribution {
       position: absolute;
       left: 0px !important;
@@ -19,12 +17,11 @@
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: right;
-      width: 440px; /* för att matcha kartbredden */
+      text-align: left;
+      width: 440px;
       box-sizing: border-box;
     }
 
-    /* Extra rad under attribution */
     .custom-attribution {
       position: absolute;
       left: 0px;
@@ -32,16 +29,15 @@
       background-color: white;
       padding: 5px 10px;
       font-size: 11px;
-      text-align: right;
+      text-align: left;
       width: 440px;
       box-sizing: border-box;
     }
 
     .ol-map {
       position: relative !important;
-    }  
+    }
 
-    /* Stil för info-länken (ℹ️) */
     .info-attribution {
       position: absolute; 
       top: 14px; 
@@ -54,16 +50,14 @@
       color: blue;
     }
 
-    /* Karta */
     #osm-map {
       position: fixed;
       height: 740px;
       width: 440px;
-      top: 0;
+      top: -5px;
       left: 0;
     }
 
-    /* Tooltip */
     .tooltip {
       background-color: white;
       border: 1px solid black;
@@ -75,7 +69,6 @@
       pointer-events: none;
     }
 
-    /* Dropdown-stilar */
     .dropdown, .dropdown2 {
       position: absolute;
       top: 550px;
@@ -129,7 +122,6 @@
 
     p { font-size: 35px; }
 
-    /* Header - Pendelparkering med tågtider */
     .header {
       position: absolute;
       top: 40px;
@@ -137,19 +129,19 @@
       transform: translateX(-50%);
       text-align: center;
       background-color: rgba(255, 255, 255, 0.6);
-      padding: 8px 15px; /* krympt padding */
+      padding: 8px 15px;
       border-radius: 10px;
       z-index: 5000;
       width: auto;
       max-width: 400px;
-      white-space: nowrap; /* förhindrar radbrytning */
-      cursor: default; /* visar att det inte är klickbart */
+      white-space: nowrap;
+      cursor: default;
     }
 
     .header h1 {
       margin: 0;
       font-size: 32px;
-      color: #001F4D; /* marinblå */
+      color: #001F4D;
       line-height: 1;
     }
 
@@ -162,31 +154,28 @@
 
     @media (min-width: 600px) {
       .header {
-        left: 220px; /* halva kartans bredd */
+        left: 220px;
         transform: translateX(-50%);
       }
     }
-
   </style>
-
 </head>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-HQC5YGKM2N');
 </script>
+
 <body>
-  <!-- Header: Pendelparkering med tågtider -->
   <div class="header">
     <h1>Pendelparkering</h1>
     <p>med tågtider</p>
   </div>
 
-  <!-- Karta -->
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
@@ -194,18 +183,14 @@
     och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
 
-  <!-- Tooltip-element -->
   <div id="tooltip" class="tooltip"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Skapa kartan
       var map = new ol.Map({
         target: 'osm-map',
         layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
+          new ol.layer.Tile({ source: new ol.source.OSM() })
         ],
         view: new ol.View({
           center: ol.proj.fromLonLat([17.8500, 59.5067]),
@@ -213,7 +198,6 @@
         })
       });
 
-      // Skapa markörerna med stationsegenskaper
       const markersData = [
         { coords: [17.93242, 59.44424], station: 'haggvik' },
         { coords: [17.91465, 59.47586], station: 'rotebro' },
@@ -238,7 +222,7 @@
         { coords: [18.0455,  59.3433],  station: 'stockholm_city2' }
       ];
 
-      let features = markersData.map(function(item) {
+      let features = markersData.map(item => {
         let feature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat(item.coords))
         });
@@ -246,7 +230,6 @@
         return feature;
       });
 
-      // Skapa en gemensam stil för alla markörer
       const iconStyle = new ol.style.Style({
         image: new ol.style.Icon({
           anchor: [0.5, 1],
@@ -254,14 +237,12 @@
           scale: 0.3
         })
       });
-      features.forEach(feature => feature.setStyle(iconStyle));
+      features.forEach(f => f.setStyle(iconStyle));
 
-      // Lägg markörerna i en vector source
       const vectorSource = new ol.source.Vector({ features: features });
       const vectorLayer = new ol.layer.Vector({ source: vectorSource });
       map.addLayer(vectorLayer);
 
-      // Klickhändelse: vid klick, om stationsegenskapen finns, omdirigera
       map.on('singleclick', function(evt) {
         map.forEachFeatureAtPixel(evt.pixel, function(feature) {
           const station = feature.get('station');
@@ -271,7 +252,6 @@
         });
       });
 
-      // Tooltip-overlay: Skapa ett overlay med tooltip-elementet
       var tooltipEl = document.getElementById('tooltip');
       var tooltipOverlay = new ol.Overlay({
         element: tooltipEl,
@@ -280,11 +260,9 @@
       });
       map.addOverlay(tooltipOverlay);
 
-      // Visa tooltip vid hover
       map.on('pointermove', function(evt) {
-        // Försök hitta en feature under muspekaren
-        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-          return feature;
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function(f) {
+          return f;
         });
         if (feature && feature.get('station')) {
           tooltipEl.innerHTML = feature.get('station');
@@ -296,16 +274,14 @@
       });
     });
 
-    /*openstreetmap contributors*/
     document.addEventListener("DOMContentLoaded", function () {
       document.querySelector('.ol-control.ol-attribution').style.left = '0px';
     });
   </script>
 
-  <!-- Dropdown-menyer -->
   <div class="dropdown">
     <button class="dropbtn">Märsta 41/42<br><font size="2">& Arlanda</font></button>
-    <div id="dropdown1" class="dropdown-content">
+    <div class="dropdown-content">
       <a href="arlanda.html">Arlanda</a>
       <a href="marsta.html">Märsta</a>
       <a href="rosersberg.html">Rosersberg</a>
@@ -319,9 +295,10 @@
       <a href="solna.html">Solna</a>
     </div>
   </div>
+
   <div class="dropdown2">
     <button class="dropbtn">Bålsta 43<br><font size="2">Sthlm C, Odenplan</font></button>
-    <div id="dropdown2" class="dropdown2-content"> 
+    <div class="dropdown2-content"> 
       <a href="balsta.html">Bålsta</a>
       <a href="bro.html">Bro</a>
       <a href="kungsangen.html">Kungsängen</a>
@@ -334,10 +311,9 @@
       <a href="stockholm_city.html">Stockholm City</a>
     </div>
   </div>
-  
+
   <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer" class="custom-attribution" style="bottom: 12px;">
     © OpenStreetMap contributors
   </a>
-
 </body>
 </html>
