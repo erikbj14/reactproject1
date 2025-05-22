@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pendelparkering med tågtider</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css">
+  <meta charset="UTF-8" />
+  <title>OpenStreetMap med Tooltips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://erikbj14.github.io/openlayers-host/ol/ol.css" />
   <script src="https://erikbj14.github.io/openlayers-host/ol/ol.js" defer></script>
   <style>
     body {
@@ -49,28 +49,26 @@
 
     .custom-attribution {
       position: absolute;
-      bottom: 60px;
       left: 0;
-      width: 100%;
+      bottom: 40px; /* dragit ned från 10px till 40px */
       background-color: white;
+      padding: 2px 8px;
       font-size: 11px;
-      padding: 4px 12px;
-      box-sizing: border-box;
-      z-index: 4000;
       text-align: left;
+      z-index: 4000;
+      box-sizing: border-box;
     }
 
     .custom-attribution-bottom {
       position: absolute;
-      bottom: 30px;
       left: 0;
-      width: 100%;
+      bottom: 20px; /* dragit ned från 10px till 20px */
       background-color: white;
+      padding: 2px 8px;
       font-size: 11px;
-      padding: 4px 12px;
-      box-sizing: border-box;
-      z-index: 4000;
       text-align: left;
+      z-index: 4000;
+      box-sizing: border-box;
     }
 
     .dropdown, .dropdown2 {
@@ -179,12 +177,11 @@
   <div id="osm-map"></div>
 
   <div class="custom-attribution">
-    Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a><br>
-    och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
   </div>
-
   <div class="custom-attribution-bottom">
-    © OpenStreetMap contributors
+    och dess bidragsgivare, under 
+    <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
   </div>
 
   <div id="tooltip" class="tooltip"></div>
