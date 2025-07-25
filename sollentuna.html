@@ -1,51 +1,636 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pendelparkering vid Sollentuna station i norra Stockholm. Se tågtider, parkeringsplatser och tips för pendlare.">
-  <meta name="keywords" content="pendelparkering, Sollentuna, infartsparkering, pendeltåg, parkering Sollentuna, norra Stockholm, tågtider Sollentuna">
-  <meta name="author" content="Erik Apps">
-  <title>Pendelparkering Sollentuna – Tågtider & parkering | Norra Stockholm</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <link rel="canonical" href="https://erikbj14.github.io/reactproject1/sollentuna.html" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Pendelparkering Sollentuna (Norra sidan) | Infartsparkering & tågtider</title>
+
+    <meta name="description" content="Pendelparkering vid Sollentuna station – norra sidan. Se infartsparkeringar, alternativa parkeringar i norr och aktuella tågtider från Trafikverket.">
+
+    <meta name="keywords" content="pendelparkering Sollentuna norra, infartsparkering Sollentuna norr, parkering Sollentuna station norrut, tågtider Sollentuna, parkera Sollentuna norr, alternativ parkering Sollentuna station, pendeltåg Sollentuna">
+
+    <meta name="keywords" content="Sollentuna pendelparkering, Sollentuna infartsparkering, parkering Sollentuna station, tågtider Sollentuna, pendeltåg parkering, SL parkeringar, trafikverket tågtider">
+
+    <meta name="author" content="Erik / Pendelparkering">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sollentuna – Pendelparkering & tågtider">
+    <meta property="og:description" content="Hitta parkering nära Sollentuna station och se tågtider direkt från Trafikverket.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://erikbj14.github.io/reactproject1/sollentuna.html">
+    <meta property="og:image" content="URL_TILL_DIN_BILD_ELLER_LOGO">
+    <meta name="description" content="Hitta aktuella tågtider, parkeringar och pendlingsinformation vid Sollentuna station. Del av Stockholms norra pendeltågsnät." />
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" />
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+    <style>
+
+/*openstreetmap contributors*/
+.ol-control.ol-attribution
+{
+  position: absolute;
+  left: 0px;
+  bottom: 85px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+  left: 0px !important;
+    bottom: 85px !important;
+}
+
+/* Extra rad under attribution */
+.custom-attribution {
+  position: absolute;
+  left: 0px;
+  bottom: 35px;
+  background-color: white;
+  padding: 5px 10px;
+  /*border: 1px solid black;*/
+  font-size: 11px;
+  text-align: left;
+}
+
+.ol-map {
+    position: relative !important;
+}
+
+table {
+        background-color:rgba(255, 99, 71, 0.5);
+    }
+
+       /* Set the map height */
+       #osm-map {
+            position: absolute;
+            height: 640px;
+            width: 440px;
+            top: 100px;
+            left: 8px;
+        }
+   
+        .dropdown {
+            bottom: 100%;
+            display: none;
+            position: absolute;
+            top: 450px; /* Adjust the top position as needed */
+            left: 10px; /* Adjust the left position as needed */
+            display: inline-block;
+            z-index: 4000;
+        }
+   
+            .dropdown:hover .dropdown-content {
+                display: block;
+                bottom: 100%;
+            }
+   
+        .dropbtn {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+   
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #2980B9;
+            }
+   
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+       /*Vallen, Arenavägen*/
+       #popup-container2 {
+            position: absolute;
+            top: 100px;
+            left: 0px;
+            height: 130px;
+            width: 450px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid blue; /* Change the border color to blue */
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+            display: none; /* Initially hidden */
+        }
+
+        /*Tingsvägen*/
+       #popup-container3 {
+            position: absolute;
+            top: 100px;
+            left: 0px;
+            height: 100px;
+            width: 450px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid blue; /* Change the border color to blue */
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+            display: none; /* Initially hidden */
+        }
+   
+        #popup3 {
+            position: absolute;
+            top: 245px;
+            left: 150px;
+            font-size: 50px;
+            color: blue;
+            font-size: 50px;
+            z-index: 2; /* Set a higher z-index value */
+        }
+
+        
+        #display-info {
+        position: absolute;
+        top: 100px;
+        left: 0px;
+        height: 110px;
+        width: 450px;
+        background-color: white;
+        padding: 10px;
+        border: 2px solid blue; /* Change the border color to blue */
+        border-radius: 5px;
+        max-width: 300px;
+        z-index: 3000;
+        /*display: none;  Initially hidden*/
+    }
+
+    
+
+        #color-indicator-cell-1, #color-indicator-cell-2 {
+            height: 5px;
+            margin: 0;
+            width: 80px;
+        }
+
+    #display-info-table {
+            position: absolute;
+            top: 250px;
+            left: 0px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+        }
+
+        #display-info-table th, #display-info-table td {
+            padding: 5px;
+            padding-top: 2px;
+            /*border: 1px solid black;*/
+        }
+
+    </style>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQC5YGKM2N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HQC5YGKM2N');
+</script>
 <body>
-  <header>
-    <h1>Pendelparkering Sollentuna</h1>
-    <p><a href="index.html">Till startsidan</a></p>
-  </header>
+<!-- First Map -->
+<div id="osm-map">
+    <div class="dropdown">
 
-  <main>
-    <section>
-      <h2>Parkering nära Sollentuna station</h2>
-      <p>
-        Här hittar du information om pendelparkeringar vid <strong>Sollentuna station</strong>, beläget i <strong>norra Stockholm</strong>. 
-        Både infartsparkeringar (blåmarkerade) och alternativa parkeringar listas, så att du enkelt kan planera din resa.
-      </p>
-    </section>
+        <a href="index.html">
+            <button>Tillbaka</button>
+        </a>
+        </div>
+    </div>
 
-    <section>
-      <h2>Tågtider i realtid</h2>
-      <p>
-        För aktuell information om avgångar och ankomster från Sollentuna station, klicka på länken nedan:
-      </p>
-      <p>
-        <a href="https://www.trafikverket.se/trafikinformation/tag/" target="_blank" rel="noopener">Tågtider för Sollentuna station (Trafikverket)</a>
-      </p>
-    </section>
+<!-- Second Map 
+<div id="osm-map2" style="width: 100%; height: 500px;"></div>-->
+    <!-- First Map Script -->
+    <!-- Map Script -->
+    <script>
 
-    <section>
-      <h2>Tips för pendlare</h2>
-      <ul>
-        <li>Var ute i god tid – parkeringarna fylls snabbt under rusningstid.</li>
-        <li>Håll koll på alternativa platser i närheten av stationen.</li>
-        <li>Planera din resa med hjälp av realtidsdata via länken ovan.</li>
-      </ul>
-    </section>
-  </main>
+var map = new ol.Map({
+    target: 'osm-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
+    view: new ol.View({
+        center: ol.proj.fromLonLat([17.949, 59.4301]),//0,0045 är ca 500 m
+    zoom: 15 // You can adjust the zoom level as needed
+    })})
 
-  <footer>
-    <p>&copy; 2025 Erik Apps | <a href="om.html">Om Pendelparkering</a></p>
-  </footer>
+// Marker 1 Sollentuna station
+const marker11 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.94899, 59.42782])),
+});
+
+const markerStyle11 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './location-dot-solid.svg',
+        scale: 2,
+    }),
+});
+
+marker11.setStyle(markerStyle11);
+
+const vectorSource11 = new ol.source.Vector({
+    features: [marker11],
+});
+
+const vectorLayer11 = new ol.layer.Vector({
+    source: vectorSource11,
+});
+map.addLayer(vectorLayer11);
+
+        // Marker 1 industrivägen
+        const marker1 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.899, 59.5187])),
+});
+
+const markerStyle1 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './parking.svg',
+        scale: 2,
+    }),
+});
+
+marker1.setStyle(markerStyle1);
+
+const vectorSource1 = new ol.source.Vector({
+    features: [marker1],
+});
+
+const vectorLayer1 = new ol.layer.Vector({
+    source: vectorSource1,
+});
+map.addLayer(vectorLayer1);
+
+// Vallen, Arenavägen
+const marker2 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.9508, 59.43511])), // Adjust the longitude value
+});
+//EB 240604
+const markerStyle2 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './parking2.svg',
+        scale: 2,
+    }),
+});
+ 
+marker2.setStyle(markerStyle2);
+
+const vectorSource2 = new ol.source.Vector({
+    features: [marker2], // Use marker2 as the feature
+});
+
+const vectorLayer2 = new ol.layer.Vector({
+    source: vectorSource2, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer2);
+//--------------------------------
+// Vallen, 9032
+const marker2a = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.95075, 59.43490])), // Adjust the longitude value
+});
+
+const markerStyle2a = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './9032.png',
+        scale: 0.1,
+    }),
+});
+ 
+marker2a.setStyle(markerStyle2a);
+
+const vectorSource2a = new ol.source.Vector({
+    features: [marker2a], // Use marker2 as the feature
+});
+
+const vectorLayer2a = new ol.layer.Vector({
+    source: vectorSource2a, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer2a);
+//--------------------------------
+
+// Tingsvägen
+const marker3 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.94834, 59.42781])), // Adjust the longitude value
+});
+//EB 240604
+const markerStyle3 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        //src: './Bild4.png', //Gjorde en bild som liknade en polygon
+        src: './parking2.svg',
+        scale: 2,
+    }),
+});
+ 
+marker3.setStyle(markerStyle3);
+
+const vectorSource3 = new ol.source.Vector({
+    features: [marker3], // Use marker2 as the feature
+});
+
+const vectorLayer3 = new ol.layer.Vector({
+    source: vectorSource3, // Use vectorSource2 for the source
+});
+
+map.addLayer(vectorLayer3);
+
+
+</script>
+
+<table width="440" border="0">
+    <tr>
+        <th width="15"><img src="parking2.svg"></th>
+        <th width="125" align="left">Alternativa-</th>
+        <th width="15"><img src="train.svg"></th>
+        <td colspan="6" align="left">
+            Tågtider <a href="https://www.trafikverket.se/trafikinformation/tag/?Station=Sollentuna&ArrDep=departure" onclick="window.open(this.href, 'targetWindow', 'top=100, width=440, height=800'); return false;">Sollentuna</a>
+        </td>
+    </tr>
+    <tr>
+        <td width="15"></td>
+        <th width="125" align="left">parkeringar</th>
+        <td width="15"></td>
+        <td colspan="6" align="left">Trafikverket</td>
+    </tr>
+    <tr>
+        <th width="15"></th>
+        <td width="125" align="left" id="demo" onmouseover="mouseOver('demo')" onmouseout="mouseOut('demo')" class="highlight_staffan27">Vallen,</td>
+        <th width="15"></th>
+        <td width="285" align="left" id="demo2" onmouseover="mouseOver('demo2')" onmouseout="mouseOut('demo2')" class="highlight_staffan27">Tingsvägen</td>        
+    </tr>
+    <tr>
+        <th width="15"></th>
+        <td width="125" align="left" id="demo" onmouseover="mouseOver('demo')" onmouseout="mouseOut('demo')" class="highlight_staffan27">Arenavägen</td>
+        <th width="15"></th>
+        <td width="285" align="left" style="padding: 0px; font-size: 1px;" id="start">
+            <!--<button type="button" onload="this.style.display='none'">Hello</button>-->
+            <button id="reloadButton" hidden="true">Återställ</button>
+        </td>       
+    </tr>
+</table>
+    <!--Vallen, Arenavägen-->
+    <div id="popup-container2">
+        <table width="300" border="0">
+
+            <tr>
+                <th width="15"><img src="parking2.svg"></th>
+
+
+
+                <th colspan=" 4" align="left">Vallen, Arenavägen</th>
+
+
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="4"><table border="0"><tr><td align="left">Omr. kod <b>9032</b></td></tr><tr><td>Kostnad: 20 kr per 24 timmar</td></tr><tr><td align="left"> Kan vara fullt på vardagar.<br>Obs. Kan även vara fullt på helger <br>p.g.a idrottsevenemang.</td></tr></table></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <!--Tingsvägen-->
+    <div id="popup-container3">
+        <table width="300" border="0">
+
+            <tr>
+                <th width="15"><img src="parking2.svg"></th>
+
+
+
+                <th colspan=" 4" align="left">Tingsvägen</th>
+
+
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="4"><table border="0"><tr><td align="left">Avgift 09-19</td></tr><tr><td>Taxa A = 15 kr/tim</td></tr><tr><td align="left">Parkeringsförbud 00-08 Onsdag</td></tr></table></td>
+            </tr>
+        </table>
+
+    </div>
+
+
+<!--<div id="popup-container3"></div>-->
+
+<div id="popup-container">
+
+</div>
+
+<div id="popup-container2">
+
+</div>
+
+<div id="popup-container3">
+
+</div>
+
+<div id="popup-container4">
+
+</div>
+
+<table id="display-info-table" width="220" border="0">
+    <tr>
+        <td colspan="2" align="left" style="font-size: smaller;">
+            <span style="display: inline-block; width: 10px; height: 10px; background-color: lightgreen; margin-right: 2px;"></span>Ledigt
+            <span style="display: inline-block; width: 10px; height: 10px; background-color: yellow; margin-left: 5px; margin-right: 2px;"></span>Ev. ledigt
+            <span style="display: inline-block; width: 10px; height: 10px; background-color: red; margin-left: 5px; margin-right: 2px;"></span>Fullt
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" align="left">Prognos</th>
+    </tr>
+    <tr>
+        <td id="id-cell-1" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;">9032</td>
+        <td id="color-indicator-cell-1" style="height: 5px; margin: 0; width: 80px;"></td>
+    </tr>
+    <tr>
+        <td id="id-cell-2" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;">Tingsv.</td>
+        <td id="color-indicator-cell-2" style="height: 5px; margin: 0; width: 80px;"></td>
+    </tr>
+</table>
+
+<script>
+    function updateInformation() {
+        // Get the current date and time
+        const currentDate = new Date();
+        const currentHour = currentDate.getHours();
+        const currentDay = currentDate.getDay(); // 0 = Sunday, 6 = Saturday
+
+        // Define time ranges and messages
+        const timeRanges = [
+            { start: 0, end: 7, message: "Your message for 00:00-08:00", color: "lightgreen" },
+            { start: 7, end: 8.5, message: "Your message for 08:00-08:30", color: "yellow" },
+            { start: 8.5, end: 16, message: "Your message for 08:30-16:00", color: "yellow" },
+            { start: 16, end: 18, message: "Your message for 16:00-18:00", color: "lightgreen" },
+            { start: 18, end: 24, message: "Your message for 18:00-24:00", color: "lightgreen" },
+        ];
+
+        const timeRanges2 = [
+            { start: 0, end: 7, message: "Your message for 00:00-08:00", color: "lightgreen" },
+            { start: 7, end: 8.5, message: "Your message for 08:00-08:30", color: "yellow" },
+            { start: 8.5, end: 16, message: "Your message for 08:30-16:00", color: "red" },
+            { start: 16, end: 18, message: "Your message for 16:00-18:00", color: "yellow" },
+            { start: 18, end: 24, message: "Your message for 18:00-24:00", color: "lightgreen" },
+        ];
+
+        // Function to get display text and color based on time range
+        function getDisplayTextAndColor(timeRanges, currentHour, currentDay) {
+            if (currentDay === 0 || currentDay === 6) { // Check if it's Saturday or Sunday
+                return { message: "Weekend", color: "yellow" };
+            }
+            for (const range of timeRanges) {
+                if (currentHour >= range.start && currentHour < range.end) {
+                    return { message: range.message, color: range.color };
+                }
+            }
+            return { message: "Unknown time range", color: "grey" };
+        }
+
+        // Update the information for the first row (ID: 9032)
+        let info1 = getDisplayTextAndColor(timeRanges, currentHour, currentDay);
+        document.getElementById('color-indicator-cell-1').style.backgroundColor = info1.color;
+
+        // Update the information for the second row (ID: Tingsvägen)
+        let info2 = getDisplayTextAndColor(timeRanges2, currentHour, currentDay);
+        document.getElementById('color-indicator-cell-2').style.backgroundColor = info2.color;
+    }
+
+    // Call the updateInformation function when the page loads
+    updateInformation();
+
+    // Update the information every second (1000 milliseconds)
+    setInterval(updateInformation, 1000);
+</script>
+
+
+<script>
+/*openstreetmap contributors*/
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector('.ol-control.ol-attribution').style.left = '50px';
+  });
+
+    const demoElement = document.getElementById("demo");
+
+// Add click event listener to the map view
+map.on('click', function (event) {
+//alert("zoom")
+// F�r att ta bort highlight om kartan zoomas, deklarerad i index.html
+// Get the clicked coordinate
+// if (flag == 10) {
+//     flag = 2; //Zoomar inte mer (om anv. ej dubbelklickar)
+document.getElementById('reloadButton').addEventListener('click', function () {
+location.reload();
+});
+//Nedan rensa vid zoom
+document.getElementById("reloadButton").hidden = "";
+//document.getElementById("marker7Layer").style.visibility = "none"; 
+//document.getElementById("popup-container4").style.display = "none";
+document.getElementById("popup-container2").style.display = "none";
+document.getElementById("popup-container3").style.display = "none";
+document.getElementById("popup-container4").style.display = "none";
+const clickedCoord = event.coordinate;
+
+// Adjust the clicked coordinate (move slightly to the left and up)
+const adjustedCoord = [clickedCoord[0] + 400, clickedCoord[1] + 250]; // You can adjust these values
+
+// Get the current zoom level
+const currentZoom = map.getView().getZoom();
+
+// Set the new zoom level (you can adjust this value)
+const newZoom = currentZoom + 1;
+
+// Set the new zoom level and center the map on the adjusted coordinate
+map.getView().animate({ zoom: newZoom, center: adjustedCoord });
+//};
+});
+
+
+
+
+
+/*  if (id === "start") { <script>location.replace*/
+
+
+//const popupContainer = document.getElementById('popup-container3');
+
+//const popupContainer = document.getElementById('popup-container4'); }
+
+// Update the position when the map is moved or zoomed
+map.on('moveend', function () {
+//alert("zoomad IGEN")
+const center = map.getView().getCenter();
+const pixel = map.getPixelFromCoordinate(center);
+
+// Set the position of the popup container based on the pixel coordinates
+popupContainer.style.left = pixel[0] + 'px';
+popupContainer.style.top = pixel[1] + 'px';
+});
+
+    function mouseOver(id) {
+        // Check the ID and perform actions accordingly
+        if (id === "demo") {
+            //alert(document.getElementById("demo").innerHTML)
+            document.getElementById("demo").innerHTML;
+            document.getElementById("popup-container2").style.display = "block";
+        }
+        else if (id === "demo2") {
+             //alert(document.getElementById("demo").innerHTML)
+             document.getElementById("demo2").innerHTML;
+            document.getElementById("popup-container3").style.display = "block";
+        }
+        
+    }
+
+
+    function mouseOut(id) {
+        // No parameter (id) is needed in this function
+        // Perform actions based on the logic you need
+        if (id === "demo") {
+            document.getElementById("demo").innerHTML;
+            document.getElementById("popup-container2").style.display = "none";
+        }
+        else if (id === "demo2") {
+             //alert(document.getElementById("demo").innerHTML)
+             document.getElementById("demo2").innerHTML;
+             document.getElementById("popup-container3").style.display = "none";
+        }
+    }
+
+</script>
+</div>
+<a href="om.html" style="position: absolute; top: 10px; left: 400px; z-index: 4000; text-decoration: none; background: white; padding: 5px 10px; border-radius: 5px;">ℹ️</a>
+<div class="custom-attribution">
+  Kartdata från <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> 
+  och dess bidragsgivare, under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL-licens</a>.
+</div>
 </body>
 </html>
