@@ -260,30 +260,6 @@ const vectorLayer1a = new ol.layer.Vector({
 });
 map.addLayer(vectorLayer1a);
 
-// Marker Häradsvägen/ alternativ parkering
-        const marker2 = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.871827, 59.406308])),
-}); 
-
-const markerStyle2 = new ol.style.Style({
-    image: new ol.style.Icon({
-        anchor: [0.5, 1],
-        src: './parking2.svg',
-        scale: 2,
-    }),
-});
-
-marker2.setStyle(markerStyle2);
-
-const vectorSource2 = new ol.source.Vector({
-    features: [marker2],
-});
-
-const vectorLayer2 = new ol.layer.Vector({
-    source: vectorSource2,
-});
-map.addLayer(vectorLayer2);
-
 </script>
 
 <table width="440" border="0">
