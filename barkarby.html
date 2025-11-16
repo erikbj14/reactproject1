@@ -388,66 +388,75 @@ map.addLayer(vectorLayer2);
 
 <table id="display-info-table" width="200" border="1">
     <tr>
-        <td colspan="3" align="left" style="font-size: smaller;">
+        <td colspan="2" align="left" style="font-size: smaller;">
             <span style="display: inline-block; width: 10px; height: 10px; background-color: lightgreen; margin-right: 2px;"></span>Ledigt
             <span style="display: inline-block; width: 10px; height: 10px; background-color: yellow; margin-left: 5px; margin-right: 2px;"></span>Ev. ledigt
             <span style="display: inline-block; width: 10px; height: 10px; background-color: red; margin-left: 5px; margin-right: 2px;"></span>Fullt
         </td>
     </tr>
-
     <tr>
-        <th colspan="3" align="left">Prognos</th>
+        <th colspan="2" align="left">Prognos</th>
     </tr>
-
-    <!-- Rad 1: Pendelparkering -->
+    <!-- Rad 1: originalparkering -->
     <tr>
-        <td width="70" id="id-cell-1" align="left"></td>
-        <td width="80" id="time-cell-1" align="center"></td>
-        <td width="60" id="color-cell-1"></td>
+        <td id="id-cell-1" width="70" align="left" style="height: 8px; padding: 1px; margin: 0;"></td>
+        <td id="color-indicator-cell-1" style="height: 5px; margin: 0; width: 80px;"></td>
     </tr>
-
-    <!-- Rad 2: Ny parkering -->
+    <!-- Rad 2: ny parkering, alltid gul -->
     <tr>
-        <td id="id-cell-2" align="left"></td>
-        <td id="time-cell-2" align="center"></td>
-        <td id="color-cell-2"></td>
+        <td id="id-cell-2" width="70" align="left" style="height: 8px; padding: 1px; margin: 0;"></td>
+        <td id="color-indicator-cell-2" style="height: 5px; margin: 0; width: 80px;"></td>
     </tr>
 </table>
 
 <script>
     function updateInformation() {
-        const now = new Date();
-        const hour = now.getHours();
+        const currentDate = new Date();
+        const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        const currentHour = currentDate.getHours();
 
-        // Gult 24/7
-        const color = "yellow";
+        // ---- Rad 1: originalparkering med tidslogik ----
+        let indicatorColor1 = "";
+        let id1 = "Parkering"; // ändra till Pendelparkering om du vill
 
-        // Rad 1
-        const idName1 = "Pendelparkering"; 
-        let timeRange1 = "";
+        const timeRanges = [
+            { start: 0,   end: 8.5, message: "00:00-08:30", color: "lightgreen" },
+            { start: 8.5, end: 16,  message: "08:30-16:00", color: "yellow" },
+            { start: 16,  end: 18,  message: "16:00-18:00", color: "lightgreen" },
+            { start: 18,  end: 24,  message: "18:00-24:00", color: "lightgreen" },
+        ];
 
-        if (hour >= 0 && hour < 8.5) timeRange1 = "00:00-08:30";
-        else if (hour >= 8.5 && hour < 16) timeRange1 = "08:30-16:00";
-        else if (hour >= 16 && hour < 18) timeRange1 = "16:00-18:00";
-        else if (hour >= 18 && hour < 24) timeRange1 = "18:00-24:00";
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            // Helg
+            indicatorColor1 = "lightgreen";
+        } else {
+            // Vardagar – kolla vilket intervall klockslaget ligger i
+            for (const range of timeRanges) {
+                if (currentHour >= range.start && currentHour < range.end) {
+                    indicatorColor1 = range.color;
+                    break;
+                }
+            }
+        }
 
-        // Fyll rad 1
-        document.getElementById("id-cell-1").textContent = idName1;
-        document.getElementById("time-cell-1").textContent = timeRange1;
-        document.getElementById("color-cell-1").style.backgroundColor = color;
+        // Sätt värden för rad 1
+        document.getElementById('id-cell-1').textContent = id1;
+        document.getElementById('color-indicator-cell-1').style.backgroundColor = indicatorColor1;
 
-        // Rad 2 – alltid gul
-        const idName2 = "Ny parkering";
-        const timeRange2 = "00:00-24:00";
+        // ---- Rad 2: ny parkering, alltid gul ----
+        const id2 = "Ny parkering"; // byt namn som du vill
+        const indicatorColor2 = "yellow";
 
-        document.getElementById("id-cell-2").textContent = idName2;
-        document.getElementById("time-cell-2").textContent = timeRange2;
-        document.getElementById("color-cell-2").style.backgroundColor = color;
+        document.getElementById('id-cell-2').textContent = id2;
+        document.getElementById('color-indicator-cell-2').style.backgroundColor = indicatorColor2;
     }
 
+    // Kör vid start
     updateInformation();
+    // Uppdatera varje sekund (kan ändras om du vill)
     setInterval(updateInformation, 1000);
 </script>
+
 
 
 
