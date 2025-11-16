@@ -107,6 +107,22 @@ table {
             z-index: 3000;
             display: none; /* Initially hidden */
         }
+
+        /*Häradsvägen*/
+       #popup-container2B {
+            position: absolute;
+            top: 130px;
+            left: 0px;
+            height: 130px;
+            width: 450px;
+            background-color: white;
+            padding: 10px;
+            border: 2px solid blue; /* Change the border color to blue */
+            border-radius: 5px;
+            max-width: 300px;
+            z-index: 3000;
+            display: none; /* Initially hidden */
+        }
    
         #popup3 {
             position: absolute;
@@ -331,6 +347,25 @@ map.addLayer(vectorLayer2);
         </table>
 
     </div>
+
+    <div id="popup-container2B">
+        <table width="300" border="1">
+
+            <tr>
+                <th width="15"><img src="parking.svg"></th>
+
+
+
+                <th colspan=" 4" align="left">Welcome hotel</th>
+
+
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="4"><table border="1"><tr><td align="left">Vid Häradsvägen finns cirka 350 parkeringsplatser intill Welcome Hotel och Barkarbybron. Här kan du parkera dygnet runt (i max 24 timmar). <br>Ingen avgift ofta ledigt</td></tr><tr><td></td></tr><tr><td align="left"></td></tr></table></td>
+            </tr>
+        </table>
+
+    </div>
     
 
 
@@ -341,6 +376,10 @@ map.addLayer(vectorLayer2);
 </div>
 
 <div id="popup-container2">
+
+</div>
+
+<div id="popup-container2B">
 
 </div>
 
