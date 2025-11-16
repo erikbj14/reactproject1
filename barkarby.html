@@ -388,85 +388,67 @@ map.addLayer(vectorLayer2);
 
 <table id="display-info-table" width="200" border="1">
     <tr>
-        <td colspan="2" align="left" style="font-size: smaller;">
+        <td colspan="3" align="left" style="font-size: smaller;">
             <span style="display: inline-block; width: 10px; height: 10px; background-color: lightgreen; margin-right: 2px;"></span>Ledigt
             <span style="display: inline-block; width: 10px; height: 10px; background-color: yellow; margin-left: 5px; margin-right: 2px;"></span>Ev. ledigt
             <span style="display: inline-block; width: 10px; height: 10px; background-color: red; margin-left: 5px; margin-right: 2px;"></span>Fullt
         </td>
-    <tr>
-        <th colspan="2" align="left">Prognos</th>
     </tr>
+
     <tr>
-        <td id="id-cell" width="40" align="center" style="height: 8px; padding: 1px; margin: 0;"></td>
-        <td id="color-indicator-cell" style="height: 5px; margin: 0; width: 80px;"></td>
+        <th colspan="3" align="left">Prognos</th>
+    </tr>
+
+    <!-- Rad 1: Pendelparkering -->
+    <tr>
+        <td width="70" id="id-cell-1" align="left"></td>
+        <td width="80" id="time-cell-1" align="center"></td>
+        <td width="60" id="color-cell-1"></td>
+    </tr>
+
+    <!-- Rad 2: Ny parkering -->
+    <tr>
+        <td id="id-cell-2" align="left"></td>
+        <td id="time-cell-2" align="center"></td>
+        <td id="color-cell-2"></td>
     </tr>
 </table>
 
 <script>
     function updateInformation() {
-        // Get the current date and time
-        const currentDate = new Date();
-        const dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-        const currentHour = currentDate.getHours();
-    
-        let displayText = "";
-        let indicatorColor = "";
-        let id = "Parkering"; // You can replace this with a dynamic value
-    
-        // Define time ranges and messages
-        const timeRanges = [
-            { start: 0, end: 8.5, message: "Your message for 00:00-08:30", color: "lightgreen" },
-            { start: 8.5, end: 16, message: "Your message for 08:30-16:00", color: "yellow" },
-            { start: 16, end: 18, message: "Your message for 16:00-18:00", color: "lightgreen" },
-            { start: 18, end: 24, message: "Your message for 18:00-24:00", color: "lightgreen" },
-        ];
-    
-        // Check if it's the weekend
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            displayText = "Weekend message: Your message here.";
-            indicatorColor = "lightgreen"; // Change this to the desired color for weekends
-        } else {
-            // Check the current time range
-            for (const range of timeRanges) {
-                if (currentHour >= range.start && currentHour < range.end) {
-                    displayText = range.message;
-                    indicatorColor = range.color;
-                    break;
-                }
-            }
-        }
-    
-        // Set values for ID and color indicator cells
-        document.getElementById('id-cell').textContent = id;
-        document.getElementById('color-indicator-cell').style.backgroundColor = indicatorColor;
-        document.getElementById('time-indicator-cell').textContent = getTimeRangeString();
-        document.getElementById('time-indicator-cell').style.backgroundColor = indicatorColor;
-        document.getElementById('message-cell').textContent = displayText;
+        const now = new Date();
+        const hour = now.getHours();
+
+        // Gult 24/7
+        const color = "yellow";
+
+        // Rad 1
+        const idName1 = "Pendelparkering"; 
+        let timeRange1 = "";
+
+        if (hour >= 0 && hour < 8.5) timeRange1 = "00:00-08:30";
+        else if (hour >= 8.5 && hour < 16) timeRange1 = "08:30-16:00";
+        else if (hour >= 16 && hour < 18) timeRange1 = "16:00-18:00";
+        else if (hour >= 18 && hour < 24) timeRange1 = "18:00-24:00";
+
+        // Fyll rad 1
+        document.getElementById("id-cell-1").textContent = idName1;
+        document.getElementById("time-cell-1").textContent = timeRange1;
+        document.getElementById("color-cell-1").style.backgroundColor = color;
+
+        // Rad 2 – alltid gul
+        const idName2 = "Ny parkering";
+        const timeRange2 = "00:00-24:00";
+
+        document.getElementById("id-cell-2").textContent = idName2;
+        document.getElementById("time-cell-2").textContent = timeRange2;
+        document.getElementById("color-cell-2").style.backgroundColor = color;
     }
-    
-    function getTimeRangeString() {
-        const currentDate = new Date();
-        const currentHour = currentDate.getHours();
-    
-        if (currentHour >= 0 && currentHour < 8.5) {
-            return "00:00-08:30";
-        } else if (currentHour >= 8.5 && currentHour < 16) {
-            return "08:30-16:00";
-        } else if (currentHour >= 16 && currentHour < 18) {
-            return "16:00-18:00";
-        } else if (currentHour >= 18 && currentHour < 24) {
-            return "18:00-24:00";
-        } else {
-            return "Unknown";
-        }
-    }
-    
-    // Call the updateInformation function when the page loads
+
     updateInformation();
-    
-    // Update the information every second (1000 milliseconds)
     setInterval(updateInformation, 1000);
-    </script>
+</script>
+
 
 
 <script>
