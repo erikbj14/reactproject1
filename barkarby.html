@@ -320,7 +320,7 @@ map.addLayer(vectorLayer2);
         </tr>
     <tr>
         <th width="15"><img src="parking2.svg"></th>
-        <td width="125">Häradsvägen</td>
+        <td width="125" align="left" id="demo2" onmouseover="mouseOver('demo2')" onmouseout="mouseOut('demo2')" class="highlight_staffan27">Häradsvägen</td>
         <th width="15"></th>
         <td width="285" align="left" style="padding: 0px; font-size: 1px;" id="start">
             <!--<button type="button" onload="this.style.display='none'">Hello</button>-->
@@ -490,6 +490,7 @@ document.getElementById("reloadButton").hidden = "";
 //document.getElementById("marker7Layer").style.visibility = "none"; 
 //document.getElementById("popup-container4").style.display = "none";
 document.getElementById("popup-container2").style.display = "none";
+document.getElementById("popup-container2B").style.display = "none";
 document.getElementById("popup-container4").style.display = "none";
 const clickedCoord = event.coordinate;
 
@@ -530,6 +531,7 @@ popupContainer.style.top = pixel[1] + 'px';
             //alert(document.getElementById("demo").innerHTML)
             document.getElementById("demo").innerHTML;
             document.getElementById("popup-container2").style.display = "block";
+            document.getElementById("popup-container2B").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
         }
         
@@ -541,6 +543,29 @@ popupContainer.style.top = pixel[1] + 'px';
         if (id === "demo") {
             document.getElementById("demo").innerHTML;
             document.getElementById("popup-container2").style.display = "none";
+            document.getElementById("popup-container2B").style.display = "none";
+            document.getElementById("popup-container4").style.display = "none";
+        }
+
+        function mouseOver(id) {
+        // Check the ID and perform actions accordingly
+        if (id === "demo2") {
+            //alert(document.getElementById("demo").innerHTML)
+            document.getElementById("demo2").innerHTML;
+            document.getElementById("popup-container2").style.display = "none";
+            document.getElementById("popup-container2B").style.display = "block";
+            document.getElementById("popup-container4").style.display = "none";
+        }
+        
+    }
+
+    function mouseOut(id) {
+        // No parameter (id) is needed in this function
+        // Perform actions based on the logic you need
+        if (id === "demo2") {
+            document.getElementById("demo2").innerHTML;
+            document.getElementById("popup-container2").style.display = "none";
+            document.getElementById("popup-container2B").style.display = "none";
             document.getElementById("popup-container4").style.display = "none";
         }
     }
