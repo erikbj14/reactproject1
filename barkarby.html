@@ -299,6 +299,30 @@ const vectorLayer2 = new ol.layer.Vector({
 });
 map.addLayer(vectorLayer2);
 
+// Marker Helikptervägen/ alternativ parkering
+        const marker3 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([17.867664, 59.403320])),
+}); 
+
+const markerStyle3 = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: './parking2.svg',
+        scale: 2,
+    }),
+});
+
+marker3.setStyle(markerStyle3);
+
+const vectorSource3 = new ol.source.Vector({
+    features: [marker3],
+});
+
+const vectorLayer3 = new ol.layer.Vector({
+    source: vectorSource3,
+});
+map.addLayer(vectorLayer3);
+
 </script>
 
 <table width="440" border="0">
