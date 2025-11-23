@@ -362,7 +362,7 @@ map.addLayer(vectorLayer3);
         <th width="15"><img src="parking2.svg"></th>
         <td width="125" align="left" id="demo2" onmouseover="mouseOver1('demo2')" onmouseout="mouseOut1('demo2')" class="highlight_staffan27">Häradsvägen</td>
         <th width="15"><img src="parking2.svg"></th>
-        <td width="125" align="left" id="demo3" onmouseover="mouseOver1('demo3')" onmouseout="mouseOut1('demo3')" class="highlight_staffan27">Helikoptervägen</td>
+        <td width="125" align="left" id="demo3" onmouseover="mouseOver2('demo3')" onmouseout="mouseOut2('demo3')" class="highlight_staffan27">Helikoptervägen</td>
         <td width="160" align="left" style="padding: 0px; font-size: 1px;" id="start">
             <!--<button type="button" onload="this.style.display='none'">Hello</button>-->
             <button id="reloadButton" hidden="true">Återställ</button>
@@ -628,7 +628,7 @@ popupContainer.style.top = pixel[1] + 'px';
         }
     }
 
-    function mouseOver1(id) {
+    function mouseOver2(id) {
         // Check the ID and perform actions accordingly
         if (id === "demo3") {
             //alert(document.getElementById("demo").innerHTML)
@@ -641,7 +641,7 @@ popupContainer.style.top = pixel[1] + 'px';
         
     }
 
-    function mouseOut1(id) {
+    function mouseOut2(id) {
         // No parameter (id) is needed in this function
         // Perform actions based on the logic you need
         if (id === "demo3") {
